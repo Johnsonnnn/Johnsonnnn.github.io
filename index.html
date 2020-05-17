@@ -171,7 +171,7 @@
               <span class="post-meta-item-text">發表於</span>
               
 
-              <time title="創建時間：2020-05-17 20:38:12 / 修改時間：20:44:03" itemprop="dateCreated datePublished" datetime="2020-05-17T20:38:12+08:00">2020-05-17</time>
+              <time title="創建時間：2020-05-17 20:38:12 / 修改時間：20:47:35" itemprop="dateCreated datePublished" datetime="2020-05-17T20:38:12+08:00">2020-05-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -194,7 +194,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時args和-kwargs就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時args和-kwargs就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時args和*kwargs就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時<em>args和*</em>kwargs就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
+          <h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時 <code>*args</code> 和 <code>**kwargs</code> 就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(type(args))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
 <p>結果:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br></pre></td></tr></table></figure>

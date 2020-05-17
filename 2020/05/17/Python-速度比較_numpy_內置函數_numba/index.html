@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"johnsonnnn.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="比較每個加、減、乘、除的運算速度12345678910111213141516171819202122import numpy as npfrom numba import jitfrom PIL import Imagefrom time import timeimport matplotlib.pyplot as pltbase_list &#x3D; &amp;#123;&#39;add&#39;:list(), &#39;sub&#39;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python — 速度比較 numpy, 內置函數, numba">
+<meta property="og:url" content="https://johnsonnnn.github.io/2020/05/17/Python-%E9%80%9F%E5%BA%A6%E6%AF%94%E8%BC%83_numpy_%E5%85%A7%E7%BD%AE%E5%87%BD%E6%95%B8_numba/index.html">
+<meta property="og:site_name" content="My blog">
+<meta property="og:description" content="比較每個加、減、乘、除的運算速度12345678910111213141516171819202122import numpy as npfrom numba import jitfrom PIL import Imagefrom time import timeimport matplotlib.pyplot as pltbase_list &#x3D; &amp;#123;&#39;add&#39;:list(), &#39;sub&#39;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://johnsonnnn.github.io/images/jit_compare/step1.jpeg">
+<meta property="og:image" content="https://johnsonnnn.github.io/images/jit_compare/step2.jpeg">
+<meta property="og:image" content="https://johnsonnnn.github.io/images/jit_compare/step3.jpeg">
+<meta property="article:published_time" content="2020-05-17T14:37:35.376Z">
+<meta property="article:modified_time" content="2020-05-17T14:37:35.378Z">
+<meta property="article:author" content="John Sonnnn">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="Compare">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://johnsonnnn.github.io/images/jit_compare/step1.jpeg">
+
+<link rel="canonical" href="https://johnsonnnn.github.io/2020/05/17/Python-%E9%80%9F%E5%BA%A6%E6%AF%94%E8%BC%83_numpy_%E5%85%A7%E7%BD%AE%E5%87%BD%E6%95%B8_numba/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Python — 速度比較 numpy, 內置函數, numba | My blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">My blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">This is good place</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-%E9%80%9F%E5%BA%A6%E6%AF%94%E8%BC%83_numpy_%E5%85%A7%E7%BD%AE%E5%87%BD%E6%95%B8_numba/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python — 速度比較 numpy, 內置函數, numba
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2020-05-17 22:37:35" itemprop="dateCreated datePublished" datetime="2020-05-17T22:37:35+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="比較每個加、減、乘、除的運算速度"><a href="#比較每個加、減、乘、除的運算速度" class="headerlink" title="比較每個加、減、乘、除的運算速度"></a>比較每個加、減、乘、除的運算速度</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> jit</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">base_list = &#123;<span class="string">'add'</span>:list(), <span class="string">'sub'</span>:list(), <span class="string">'mul'</span>:list(), <span class="string">'div'</span>:list()&#125;</span><br><span class="line">np_list = &#123;<span class="string">'add'</span>:list(), <span class="string">'sub'</span>:list(), <span class="string">'mul'</span>:list(), <span class="string">'div'</span>:list()&#125;</span><br><span class="line">jit_list = &#123;<span class="string">'add'</span>:list(), <span class="string">'sub'</span>:list(), <span class="string">'mul'</span>:list(), <span class="string">'div'</span>:list()&#125;</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_add</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.add(x, y)</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_sub</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.subtract(x, y)</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_mul</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.multiply(x, y)</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_divide</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.divide(x, y)</span><br><span class="line">img = np.array(Image.open(<span class="string">'./img_000058.jpg'</span>))</span><br><span class="line">y = np.full(img.shape, <span class="number">255.</span>, dtype=np.float32)</span><br></pre></td></tr></table></figure>
+<h1 id="加入速算時間"><a href="#加入速算時間" class="headerlink" title="加入速算時間:"></a>加入速算時間:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line"> <span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img + <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base add:', tt)</span></span><br><span class="line"> base_list[<span class="string">'add'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.add(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np add:', tt)</span></span><br><span class="line"> np_list[<span class="string">'add'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _add(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit add:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'add'</span>].append(tt)</span><br><span class="line"><span class="comment">#------------------------------</span></span><br><span class="line"> <span class="comment">##sub</span></span><br><span class="line"> <span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img - <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base sub:', tt)</span></span><br><span class="line"> base_list[<span class="string">'sub'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.subtract(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np sub:', tt)</span></span><br><span class="line"> np_list[<span class="string">'sub'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _sub(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit sub:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'sub'</span>].append(tt)</span><br><span class="line"><span class="comment">#---------------------------</span></span><br><span class="line"> <span class="comment">##mul</span></span><br><span class="line"> <span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img * <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base mul:', tt)</span></span><br><span class="line"> base_list[<span class="string">'mul'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.multiply(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np mul:', tt)</span></span><br><span class="line"> np_list[<span class="string">'mul'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _mul(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit mul:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'mul'</span>].append(tt)</span><br><span class="line"><span class="comment">#---------------------------</span></span><br><span class="line"> <span class="comment">#### divide</span></span><br><span class="line"><span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img / <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base div:', tt)</span></span><br><span class="line"> base_list[<span class="string">'div'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.divide(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np div:', tt)</span></span><br><span class="line"> np_list[<span class="string">'div'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _divide(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit div:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'div'</span>].append(tt)</span><br></pre></td></tr></table></figure>
+<h1 id="畫出圖形"><a href="#畫出圖形" class="headerlink" title="畫出圖形:"></a>畫出圖形:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'add'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'add'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'add'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'add'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'sub'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'sub'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'sub'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'sub'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'mul'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'mul'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'mul'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'mul'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">4</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'div'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'div'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'div'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'div'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h1 id="顯示平均"><a href="#顯示平均" class="headerlink" title="顯示平均:"></a>顯示平均:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'base add:'</span>, np.mean(base_list[<span class="string">'add'</span>]))</span><br><span class="line">print(<span class="string">'np   add:'</span>, np.mean(np_list[<span class="string">'add'</span>]))</span><br><span class="line">print(<span class="string">'jit  add:'</span>, np.mean(jit_list[<span class="string">'add'</span>]))</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">'base sub:'</span>, np.mean(base_list[<span class="string">'sub'</span>]))</span><br><span class="line">print(<span class="string">'np   sub:'</span>, np.mean(np_list[<span class="string">'sub'</span>]))</span><br><span class="line">print(<span class="string">'jit  sub:'</span>, np.mean(jit_list[<span class="string">'sub'</span>]))</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">'base mul:'</span>, np.mean(base_list[<span class="string">'mul'</span>]))</span><br><span class="line">print(<span class="string">'np   mul:'</span>, np.mean(np_list[<span class="string">'mul'</span>]))</span><br><span class="line">print(<span class="string">'jit  mul:'</span>, np.mean(jit_list[<span class="string">'mul'</span>]))</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">'base div:'</span>, np.mean(base_list[<span class="string">'div'</span>]))</span><br><span class="line">print(<span class="string">'np   div:'</span>, np.mean(np_list[<span class="string">'div'</span>]))</span><br><span class="line">print(<span class="string">'jit  div:'</span>, np.mean(jit_list[<span class="string">'div'</span>]))</span><br><span class="line">print()</span><br></pre></td></tr></table></figure>
+<h1 id="結果"><a href="#結果" class="headerlink" title="結果:"></a>結果:</h1><p><img src="/images/jit_compare/step1.jpeg" alt="100次結果"></p>
+<p>使用 <code>jit</code> 一開始需要初始化的時間，後來就跟 <code>numpy 和 內置函數</code> 差不多時間</p>
+<h2 id="100次的平均"><a href="#100次的平均" class="headerlink" title="100次的平均:"></a>100次的平均:</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### run 100次</span></span><br><span class="line"><span class="comment">#效率 add np &gt; base &gt; jit</span></span><br><span class="line">base add: <span class="number">0.006876859664916992</span></span><br><span class="line">np   add: <span class="number">0.004611799716949463</span></span><br><span class="line">jit  add: <span class="number">0.015722057819366454</span></span><br><span class="line"><span class="comment">#效率 sub np &gt; base &gt; jit</span></span><br><span class="line">base sub: <span class="number">0.0070903849601745604</span></span><br><span class="line">np   sub: <span class="number">0.004039065837860107</span></span><br><span class="line">jit  sub: <span class="number">0.011223921775817871</span></span><br><span class="line"><span class="comment">#效率 mul np &gt; base &gt; jit</span></span><br><span class="line">base mul: <span class="number">0.006820993423461914</span></span><br><span class="line">np   mul: <span class="number">0.004162027835845948</span></span><br><span class="line">jit  mul: <span class="number">0.011623296737670898</span></span><br><span class="line"><span class="comment">#效率 div np &gt; base &gt; jit</span></span><br><span class="line">base div: <span class="number">0.010809457302093506</span></span><br><span class="line">np   div: <span class="number">0.005157313346862793</span></span><br><span class="line">jit  div: <span class="number">0.012023646831512452</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/jit_compare/step2.jpeg" alt="1000次結果"></p>
+<p>1000次的平均:<br>加減乘的效率都是 <code>np &gt; base &gt; jit</code> 但是除法時候卻變成 <code>np &gt; jit &gt; base</code></p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論:"></a>結論:</h1><h2 id="100次時"><a href="#100次時" class="headerlink" title="100次時:"></a>100次時:</h2><p>base 運算效率: <code>mul &gt; add &gt; sub &gt; div</code><br>numpy 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>jit 運算效率: <code>sub &gt; mul &gt; div &gt; add</code><br><code>add sub mul div</code> 運算個別分析都是: <code>np &gt; base &gt; jit</code><br>— — — — — — — —</p>
+<h2 id="1000次時"><a href="#1000次時" class="headerlink" title="1000次時:"></a>1000次時:</h2><p>base 運算效率: <code>add &gt; mul &gt; sub &gt; div</code><br>numpy 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>jit 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>add sub mut運算個別分析都是: <code>np &gt; base &gt; jit</code><br>但是除法卻是 <code>np &gt; jit &gt; base</code><br>— — — — — — — —<br>另外我又從1100中移除前100個可能會影響jit初始化的時間<br><img src="/images/jit_compare/step3.jpeg" alt="1100次取後面1000次結果"></p>
+<p>得出:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">base add: <span class="number">0.007069499254226685</span></span><br><span class="line">np   add: <span class="number">0.004326636791229248</span></span><br><span class="line">jit  add: <span class="number">0.00852769184112549</span></span><br><span class="line">base sub: <span class="number">0.007096832990646363</span></span><br><span class="line">np   sub: <span class="number">0.004187979221343994</span></span><br><span class="line">jit  sub: <span class="number">0.008597030878067017</span></span><br><span class="line">base mul: <span class="number">0.007033175706863403</span></span><br><span class="line">np   mul: <span class="number">0.004253644466400147</span></span><br><span class="line">jit  mul: <span class="number">0.008852479696273804</span></span><br><span class="line">base div: <span class="number">0.011279967069625854</span></span><br><span class="line">np   div: <span class="number">0.005475541353225708</span></span><br><span class="line">jit  div: <span class="number">0.009453592300415039</span></span><br></pre></td></tr></table></figure>
+<p>base 運算效率: <code>mul &gt; add &gt; sub &gt; div</code><br>numpy 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>jit 運算效率: <code>add &gt; sub &gt; mul &gt; div</code><br>個別運算則是和1000次時一樣:<br><code>add sub mut</code> 運算個別分析都是: <code>np &gt; base &gt; jit</code><br>但是除法卻是 <code>np &gt; jit &gt; base</code><br>— — — — — — -<br>*所以大運算除法時候最好不要用內置運算</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Programming/" rel="tag"># Programming</a>
+              <a href="/tags/Compare/" rel="tag"># Compare</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/17/Tensorflow-pb_Save_and_Restore/" rel="prev" title="Tensorflow — .pb Save and Restore">
+      <i class="fa fa-chevron-left"></i> Tensorflow — .pb Save and Restore
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/17/Python-Tf1_Graph_Memory_leak/" rel="next" title="Tf1 — Graph Memory leak">
+      Tf1 — Graph Memory leak <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#比較每個加、減、乘、除的運算速度"><span class="nav-number">1.</span> <span class="nav-text">比較每個加、減、乘、除的運算速度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加入速算時間"><span class="nav-number">2.</span> <span class="nav-text">加入速算時間:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#畫出圖形"><span class="nav-number">3.</span> <span class="nav-text">畫出圖形:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顯示平均"><span class="nav-number">4.</span> <span class="nav-text">顯示平均:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#結果"><span class="nav-number">5.</span> <span class="nav-text">結果:</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#100次的平均"><span class="nav-number">5.1.</span> <span class="nav-text">100次的平均:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#結論"><span class="nav-number">6.</span> <span class="nav-text">結論:</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#100次時"><span class="nav-number">6.1.</span> <span class="nav-text">100次時:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1000次時"><span class="nav-number">6.2.</span> <span class="nav-text">1000次時:</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Sonnnn</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Sonnnn</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

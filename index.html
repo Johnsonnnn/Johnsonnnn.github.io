@@ -146,6 +146,547 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Py-tf_topk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/Py-tf_topk/" class="post-title-link" itemprop="url">Tf — Choice Top-k methods</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2020-05-17 22:44:28 / 修改時間：22:45:23" itemprop="dateCreated datePublished" datetime="2020-05-17T22:44:28+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1:"></a>Method 1:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], [<span class="number">100</span>, <span class="number">99</span>, <span class="number">98</span>,</span><br><span class="line">                     <span class="number">97</span>, <span class="number">96</span>, <span class="number">95</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">92</span>, <span class="number">91</span>]])</span><br><span class="line">value, ids = tf.nn.top_k(data, <span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">10</span>   <span class="number">9</span>   <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span>   <span class="number">5</span>   <span class="number">4</span>   <span class="number">3</span>]</span><br><span class="line"> [<span class="number">100</span>  <span class="number">99</span>  <span class="number">98</span>  <span class="number">97</span>  <span class="number">96</span>  <span class="number">95</span>  <span class="number">94</span>  <span class="number">93</span>]]</span><br></pre></td></tr></table></figure>
+
+<h1 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2:"></a>Method 2:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">data = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], [<span class="number">100</span>, <span class="number">99</span>, <span class="number">98</span>, </span><br><span class="line">                    <span class="number">97</span>, <span class="number">96</span>, <span class="number">95</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">92</span>, <span class="number">91</span>]])</span><br><span class="line">sorted_data = tf.sort(data, direction=<span class="string">'DESCENDING'</span>)</span><br><span class="line">data_range = tf.range(<span class="number">0</span>, sorted_data.shape[<span class="number">1</span>], <span class="number">1</span>)</span><br><span class="line">data_range = tf.expand_dims(data_range, <span class="number">0</span>)</span><br><span class="line">data_range = tf.tile(data_range, [sorted_data.shape[<span class="number">0</span>], <span class="number">1</span>])</span><br><span class="line">out = tf.where(tf.less(data_range, <span class="number">6</span>), sorted_data, tf.zeros_like(sorted_data))</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">10</span>   <span class="number">9</span>   <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span>   <span class="number">5</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>]</span><br><span class="line"> [<span class="number">100</span>  <span class="number">99</span>  <span class="number">98</span>  <span class="number">97</span>  <span class="number">96</span>  <span class="number">95</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>]]</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-Tf_scatter_nd_Numpy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/Python-Tf_scatter_nd_Numpy/" class="post-title-link" itemprop="url">Tf — scatter_nd, Numpy</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2020-05-17 22:42:37 / 修改時間：22:44:00" itemprop="dateCreated datePublished" datetime="2020-05-17T22:42:37+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Tensorflow 中的 <code>tf.scatter_nd</code> 是一種更新張量的方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">indices = tf.constant([[<span class="number">3</span>], [<span class="number">1</span>], [<span class="number">5</span>], [<span class="number">7</span>]])</span><br><span class="line">updates = tf.constant([<span class="number">100</span>, <span class="number">300</span>, <span class="number">500</span>, <span class="number">700</span>])</span><br><span class="line">shape = tf.constant([<span class="number">10</span>])</span><br><span class="line">scatter = tf.scatter_nd(indices, updates, shape)</span><br></pre></td></tr></table></figure>
+<p>在 Numpy 中的方法為:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">ids = np.array([<span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">7</span>])</span><br><span class="line">update = np.array([<span class="number">100</span>, <span class="number">300</span>, <span class="number">500</span>, <span class="number">700</span>])</span><br><span class="line">data = np.zeros([<span class="number">10</span>])</span><br><span class="line">data[ids] = update</span><br></pre></td></tr></table></figure>
+<p>兩種方法結果都一樣，只是因 Tensorflow 不可直接透過索引值修改內容</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-Tf1_Graph_Memory_leak/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/Python-Tf1_Graph_Memory_leak/" class="post-title-link" itemprop="url">Tf1 — Graph Memory leak</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2020-05-17 22:40:14 / 修改時間：22:41:40" itemprop="dateCreated datePublished" datetime="2020-05-17T22:40:14+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>當使用tf.Graph()想刪除特定節點卻只能畫新的圖<br>而使用到了 <code>del</code><br>Memory 依舊會緩慢上升直到 OOM</p>
+<h1 id="Ex"><a href="#Ex" class="headerlink" title="Ex:"></a>Ex:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line"> g = tf.Graph()</span><br><span class="line"> <span class="keyword">with</span> g.as_default():</span><br><span class="line">  v = tf.Variable(<span class="number">100</span>)</span><br><span class="line">  c = tf.Variable(<span class="number">200</span>)</span><br><span class="line"> <span class="keyword">del</span> g</span><br></pre></td></tr></table></figure>
+<h1 id="Sol"><a href="#Sol" class="headerlink" title="Sol:"></a>Sol:</h1><p>使用 <code>gc.collect()</code> 手動清理緩存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> gc</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line"> g = tf.Graph()</span><br><span class="line"> <span class="keyword">with</span> g.as_default():</span><br><span class="line">  v = tf.Variable(<span class="number">100</span>)</span><br><span class="line">  c = tf.Variable(<span class="number">200</span>)</span><br><span class="line"> <span class="keyword">del</span> g</span><br><span class="line"> gc.collect()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-%E9%80%9F%E5%BA%A6%E6%AF%94%E8%BC%83_numpy_%E5%85%A7%E7%BD%AE%E5%87%BD%E6%95%B8_numba/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/Python-%E9%80%9F%E5%BA%A6%E6%AF%94%E8%BC%83_numpy_%E5%85%A7%E7%BD%AE%E5%87%BD%E6%95%B8_numba/" class="post-title-link" itemprop="url">Python — 速度比較 numpy, 內置函數, numba</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2020-05-17 22:37:35" itemprop="dateCreated datePublished" datetime="2020-05-17T22:37:35+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="比較每個加、減、乘、除的運算速度"><a href="#比較每個加、減、乘、除的運算速度" class="headerlink" title="比較每個加、減、乘、除的運算速度"></a>比較每個加、減、乘、除的運算速度</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> jit</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">base_list = &#123;<span class="string">'add'</span>:list(), <span class="string">'sub'</span>:list(), <span class="string">'mul'</span>:list(), <span class="string">'div'</span>:list()&#125;</span><br><span class="line">np_list = &#123;<span class="string">'add'</span>:list(), <span class="string">'sub'</span>:list(), <span class="string">'mul'</span>:list(), <span class="string">'div'</span>:list()&#125;</span><br><span class="line">jit_list = &#123;<span class="string">'add'</span>:list(), <span class="string">'sub'</span>:list(), <span class="string">'mul'</span>:list(), <span class="string">'div'</span>:list()&#125;</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_add</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.add(x, y)</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_sub</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.subtract(x, y)</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_mul</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.multiply(x, y)</span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_divide</span><span class="params">(x, y)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> np.divide(x, y)</span><br><span class="line">img = np.array(Image.open(<span class="string">'./img_000058.jpg'</span>))</span><br><span class="line">y = np.full(img.shape, <span class="number">255.</span>, dtype=np.float32)</span><br></pre></td></tr></table></figure>
+<h1 id="加入速算時間"><a href="#加入速算時間" class="headerlink" title="加入速算時間:"></a>加入速算時間:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line"> <span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img + <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base add:', tt)</span></span><br><span class="line"> base_list[<span class="string">'add'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.add(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np add:', tt)</span></span><br><span class="line"> np_list[<span class="string">'add'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _add(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit add:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'add'</span>].append(tt)</span><br><span class="line"><span class="comment">#------------------------------</span></span><br><span class="line"> <span class="comment">##sub</span></span><br><span class="line"> <span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img - <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base sub:', tt)</span></span><br><span class="line"> base_list[<span class="string">'sub'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.subtract(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np sub:', tt)</span></span><br><span class="line"> np_list[<span class="string">'sub'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _sub(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit sub:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'sub'</span>].append(tt)</span><br><span class="line"><span class="comment">#---------------------------</span></span><br><span class="line"> <span class="comment">##mul</span></span><br><span class="line"> <span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img * <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base mul:', tt)</span></span><br><span class="line"> base_list[<span class="string">'mul'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.multiply(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np mul:', tt)</span></span><br><span class="line"> np_list[<span class="string">'mul'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _mul(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit mul:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'mul'</span>].append(tt)</span><br><span class="line"><span class="comment">#---------------------------</span></span><br><span class="line"> <span class="comment">#### divide</span></span><br><span class="line"><span class="comment"># print('-' * 100)</span></span><br><span class="line"> t = time()</span><br><span class="line"> a = img / <span class="number">255.0</span></span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('base div:', tt)</span></span><br><span class="line"> base_list[<span class="string">'div'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> b = np.divide(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('np div:', tt)</span></span><br><span class="line"> np_list[<span class="string">'div'</span>].append(tt)</span><br><span class="line">t = time()</span><br><span class="line"> c = _divide(img, y)</span><br><span class="line"> tt = time() - t</span><br><span class="line"> <span class="comment"># print('jit div:', tt)</span></span><br><span class="line"> jit_list[<span class="string">'div'</span>].append(tt)</span><br></pre></td></tr></table></figure>
+<h1 id="畫出圖形"><a href="#畫出圖形" class="headerlink" title="畫出圖形:"></a>畫出圖形:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'add'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'add'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'add'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'add'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'sub'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'sub'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'sub'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'sub'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'mul'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'mul'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'mul'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'mul'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.subplot(<span class="number">4</span>, <span class="number">1</span>, <span class="number">4</span>)</span><br><span class="line">plt.plot(base_list[<span class="string">'div'</span>], label=<span class="string">'base'</span>)</span><br><span class="line">plt.plot(np_list[<span class="string">'div'</span>], label=<span class="string">'np'</span>)</span><br><span class="line">plt.plot(jit_list[<span class="string">'div'</span>], label=<span class="string">'jit'</span>)</span><br><span class="line">plt.title(<span class="string">'div'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">'right'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h1 id="顯示平均"><a href="#顯示平均" class="headerlink" title="顯示平均:"></a>顯示平均:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'base add:'</span>, np.mean(base_list[<span class="string">'add'</span>]))</span><br><span class="line">print(<span class="string">'np   add:'</span>, np.mean(np_list[<span class="string">'add'</span>]))</span><br><span class="line">print(<span class="string">'jit  add:'</span>, np.mean(jit_list[<span class="string">'add'</span>]))</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">'base sub:'</span>, np.mean(base_list[<span class="string">'sub'</span>]))</span><br><span class="line">print(<span class="string">'np   sub:'</span>, np.mean(np_list[<span class="string">'sub'</span>]))</span><br><span class="line">print(<span class="string">'jit  sub:'</span>, np.mean(jit_list[<span class="string">'sub'</span>]))</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">'base mul:'</span>, np.mean(base_list[<span class="string">'mul'</span>]))</span><br><span class="line">print(<span class="string">'np   mul:'</span>, np.mean(np_list[<span class="string">'mul'</span>]))</span><br><span class="line">print(<span class="string">'jit  mul:'</span>, np.mean(jit_list[<span class="string">'mul'</span>]))</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">'base div:'</span>, np.mean(base_list[<span class="string">'div'</span>]))</span><br><span class="line">print(<span class="string">'np   div:'</span>, np.mean(np_list[<span class="string">'div'</span>]))</span><br><span class="line">print(<span class="string">'jit  div:'</span>, np.mean(jit_list[<span class="string">'div'</span>]))</span><br><span class="line">print()</span><br></pre></td></tr></table></figure>
+<h1 id="結果"><a href="#結果" class="headerlink" title="結果:"></a>結果:</h1><p><img src="/images/jit_compare/step1.jpeg" alt="100次結果"></p>
+<p>使用 <code>jit</code> 一開始需要初始化的時間，後來就跟 <code>numpy 和 內置函數</code> 差不多時間</p>
+<h2 id="100次的平均"><a href="#100次的平均" class="headerlink" title="100次的平均:"></a>100次的平均:</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### run 100次</span></span><br><span class="line"><span class="comment">#效率 add np &gt; base &gt; jit</span></span><br><span class="line">base add: <span class="number">0.006876859664916992</span></span><br><span class="line">np   add: <span class="number">0.004611799716949463</span></span><br><span class="line">jit  add: <span class="number">0.015722057819366454</span></span><br><span class="line"><span class="comment">#效率 sub np &gt; base &gt; jit</span></span><br><span class="line">base sub: <span class="number">0.0070903849601745604</span></span><br><span class="line">np   sub: <span class="number">0.004039065837860107</span></span><br><span class="line">jit  sub: <span class="number">0.011223921775817871</span></span><br><span class="line"><span class="comment">#效率 mul np &gt; base &gt; jit</span></span><br><span class="line">base mul: <span class="number">0.006820993423461914</span></span><br><span class="line">np   mul: <span class="number">0.004162027835845948</span></span><br><span class="line">jit  mul: <span class="number">0.011623296737670898</span></span><br><span class="line"><span class="comment">#效率 div np &gt; base &gt; jit</span></span><br><span class="line">base div: <span class="number">0.010809457302093506</span></span><br><span class="line">np   div: <span class="number">0.005157313346862793</span></span><br><span class="line">jit  div: <span class="number">0.012023646831512452</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/jit_compare/step2.jpeg" alt="1000次結果"></p>
+<p>1000次的平均:<br>加減乘的效率都是 <code>np &gt; base &gt; jit</code> 但是除法時候卻變成 <code>np &gt; jit &gt; base</code></p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論:"></a>結論:</h1><h2 id="100次時"><a href="#100次時" class="headerlink" title="100次時:"></a>100次時:</h2><p>base 運算效率: <code>mul &gt; add &gt; sub &gt; div</code><br>numpy 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>jit 運算效率: <code>sub &gt; mul &gt; div &gt; add</code><br><code>add sub mul div</code> 運算個別分析都是: <code>np &gt; base &gt; jit</code><br>— — — — — — — —</p>
+<h2 id="1000次時"><a href="#1000次時" class="headerlink" title="1000次時:"></a>1000次時:</h2><p>base 運算效率: <code>add &gt; mul &gt; sub &gt; div</code><br>numpy 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>jit 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>add sub mut運算個別分析都是: <code>np &gt; base &gt; jit</code><br>但是除法卻是 <code>np &gt; jit &gt; base</code><br>— — — — — — — —<br>另外我又從1100中移除前100個可能會影響jit初始化的時間<br><img src="/images/jit_compare/step3.jpeg" alt="1100次取後面1000次結果"></p>
+<p>得出:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">base add: <span class="number">0.007069499254226685</span></span><br><span class="line">np   add: <span class="number">0.004326636791229248</span></span><br><span class="line">jit  add: <span class="number">0.00852769184112549</span></span><br><span class="line">base sub: <span class="number">0.007096832990646363</span></span><br><span class="line">np   sub: <span class="number">0.004187979221343994</span></span><br><span class="line">jit  sub: <span class="number">0.008597030878067017</span></span><br><span class="line">base mul: <span class="number">0.007033175706863403</span></span><br><span class="line">np   mul: <span class="number">0.004253644466400147</span></span><br><span class="line">jit  mul: <span class="number">0.008852479696273804</span></span><br><span class="line">base div: <span class="number">0.011279967069625854</span></span><br><span class="line">np   div: <span class="number">0.005475541353225708</span></span><br><span class="line">jit  div: <span class="number">0.009453592300415039</span></span><br></pre></td></tr></table></figure>
+<p>base 運算效率: <code>mul &gt; add &gt; sub &gt; div</code><br>numpy 運算效率: <code>sub &gt; mul &gt; add &gt; div</code><br>jit 運算效率: <code>add &gt; sub &gt; mul &gt; div</code><br>個別運算則是和1000次時一樣:<br><code>add sub mut</code> 運算個別分析都是: <code>np &gt; base &gt; jit</code><br>但是除法卻是 <code>np &gt; jit &gt; base</code><br>— — — — — — -<br>*所以大運算除法時候最好不要用內置運算</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Tensorflow-pb_Save_and_Restore/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/Tensorflow-pb_Save_and_Restore/" class="post-title-link" itemprop="url">Tensorflow — .pb Save and Restore</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2020-05-17 22:17:52 / 修改時間：22:19:04" itemprop="dateCreated datePublished" datetime="2020-05-17T22:17:52+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Save"><a href="#Save" class="headerlink" title="Save:"></a>Save:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.framework <span class="keyword">import</span> graph_util</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=tf.Graph()) <span class="keyword">as</span> sess:</span><br><span class="line">  <span class="keyword">with</span> tf.variable_scope(<span class="string">'v1'</span>):</span><br><span class="line">   x = tf.placeholder(tf.int32, name=<span class="string">'x'</span>)</span><br><span class="line">   zz = tf.placeholder(tf.int32, name=<span class="string">'zz'</span>)</span><br><span class="line">   b = tf.Variable(<span class="number">2</span>, name=<span class="string">'b'</span>)</span><br><span class="line">   xb = tf.multiply(x, b)</span><br><span class="line">   result = tf.add(xb, zz, name=<span class="string">'add'</span>)</span><br><span class="line">   print(result.name)</span><br><span class="line">  sess.run(tf.global_variables_initializer())</span><br><span class="line">  constant_graph = graph_util.convert_variables_to_constants(</span><br><span class="line">                  sess, </span><br><span class="line">                  tf.get_default_graph().as_graph_def(), </span><br><span class="line">                  [<span class="string">'v1/zz'</span>, <span class="string">'v1/x'</span>, <span class="string">'v1/b'</span>, <span class="string">'v1/add'</span>])</span><br><span class="line">  <span class="keyword">with</span> tf.gfile.FastGFile(<span class="string">'./filename.pb'</span>, mode=<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(constant_graph.SerializeToString())</span><br></pre></td></tr></table></figure>
+<h1 id="Restore"><a href="#Restore" class="headerlink" title="Restore:"></a>Restore:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.framework <span class="keyword">import</span> graph_util</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=tf.Graph()) <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(tf.global_variables_initializer())</span><br><span class="line">  graph_def = tf.GraphDef()</span><br><span class="line">  <span class="keyword">with</span> open(<span class="string">'./filename.pb'</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    graph_def.ParseFromString(f.read())</span><br><span class="line">    tf.import_graph_def(graph_def, name=<span class="string">""</span>)</span><br><span class="line">  x = sess.graph.get_tensor_by_name(<span class="string">'v1/x:0'</span>)</span><br><span class="line">  zz = sess.graph.get_tensor_by_name(<span class="string">'v1/zz:0'</span>)</span><br><span class="line">  b = sess.graph.get_tensor_by_name(<span class="string">'v1/b:0'</span>)</span><br><span class="line">  add = sess.graph.get_tensor_by_name(<span class="string">'v1/add:0'</span>)</span><br><span class="line">  print(sess.run(add, feed_dict=&#123;x:<span class="number">2</span>, zz:<span class="number">5</span>, b:<span class="number">3</span>&#125;))</span><br><span class="line">  <span class="comment">#x * b + zz = 11</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Install_Opencv_issue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/Install_Opencv_issue/" class="post-title-link" itemprop="url">Install Opencv issue</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2020-05-17 22:15:33" itemprop="dateCreated datePublished" datetime="2020-05-17T22:15:33+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Opencv/" itemprop="url" rel="index"><span itemprop="name">Opencv</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>安裝完opencv-contrib-python後 <code>import cv2</code> 時出現:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt; File <span class="string">"/usr/local/lib/python3.7/site-packages/cv2/__init__.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> &lt;module&gt; <span class="keyword">from</span> .cv2 <span class="keyword">import</span> * ImportError: libhdf5_serial.so<span class="number">.103</span>: cannot open shared object file: No such file <span class="keyword">or</span> directory</span><br></pre></td></tr></table></figure>
+<p>— — — — — — 解決- — — — — — —</p>
+<h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h1><p>到 <code>cv2</code> 路徑下<br><code>cd /usr/local/lib/python3.7/site-packages/cv2</code><br>找到 <code>cv2.cpython-37m-arm-linux-gnueabihf.so</code></p>
+<h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h1><p>尋找未安裝的套件<br><code>&gt;&gt; ldd cv2.cpython-37m-arm-linux-gnueabihf.so | grep &quot;not found&quot;</code><br>Out::</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libQtTest.so.4 =&gt; not found</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h1><p>安裝 <code>apt-file</code><br><code>&gt;&gt; sudo apt install apt-file</code></p>
+<h1 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h1><p>搜尋套件:<br><code>&gt;&gt; apt-file search libQtTest.so.4</code><br>Out::(冒號前面是套件名稱)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4</span><br><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4.8</span><br><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4.8.7</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step5"><a href="#Step5" class="headerlink" title="Step5:"></a>Step5:</h1><p>安裝缺少的套件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; sudo apt install libqt-4-test</span><br></pre></td></tr></table></figure>
+<p>直到所有套件都安裝即可<br>— — — — — — — — — — — — — — — — — — -</p>
+<h1 id="若出現"><a href="#若出現" class="headerlink" title="若出現:"></a>若出現:</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt; ImportError: /usr/<span class="built_in">local</span>/lib/python3.7/site-packages/cv2/cv2.cpython-37m-arm-linux-gnueabihf.so: undefined symbol: __atomic_fetch_add_8</span><br></pre></td></tr></table></figure>
+<p>則可嘗試:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; pip install opencv-python==3.4.6.27</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Raspberry_Pi_install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Sonnnn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/Raspberry_Pi_install/" class="post-title-link" itemprop="url">Raspberry Pi install</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2020-05-17 22:06:11 / 修改時間：22:06:18" itemprop="dateCreated datePublished" datetime="2020-05-17T22:06:11+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Raspberry/" itemprop="url" rel="index"><span itemprop="name">Raspberry</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="images/Raspberry_install/title.png" alt="Raspberry title"></p>
+<h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h1><p>先去Raspberry Pi 官方下載檔案<br>網址:<a href="https://www.raspberrypi.org/downloads/" target="_blank" rel="noopener">https://www.raspberrypi.org/downloads/</a><br>我選擇安裝的是Raspbian版本<br><img src="/images/Raspberry_install/step1.png" alt="Image1"></p>
+<p>以下三個檔案都可使用 下載zip檔案<br><img src="/images/Raspberry_install/step2.png" alt="Image2"></p>
+<h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h1><p>下載及安裝 <a href="https://www.balena.io/etcher/" target="_blank" rel="noopener">balenaEtcher</a><br>網址:<a href="https://www.balena.io/etcher/" target="_blank" rel="noopener">https://www.balena.io/etcher/</a><br><img src="/images/Raspberry_install/step3.png" alt="Image3"></p>
+<h1 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h1><p>裝上 RaspberryPi 的 SD 卡到電腦</p>
+<h1 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h1><p>打開 balenaEtcher 左邊放入剛下載的 Raspbian zip 檔案<br>中間選擇 RaspberryPi SD 卡<br><img src="/images/Raspberry_install/step4.png" alt="Image4"></p>
+<p>然後按下 Flash! 即可<br><img src="/images/Raspberry_install/step5.png" alt="Image5"></p>
+<p>執行後等他跑完就完成了<br><img src="/images/Raspberry_install/step6.png" alt="Image6"><br><img src="/images/Raspberry_install/step7.png" alt="Image7"><br><img src="/images/Raspberry_install/step8.png" alt="Image8"></p>
+<p>結束後把 SD 卡放入Raspberry Pi 即可開機</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python_tkinter_GUI_%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -169,8 +710,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2020-05-17 21:24:00" itemprop="dateCreated datePublished" datetime="2020-05-17T21:24:00+08:00">2020-05-17</time>
+              <time title="創建時間：2020-05-17 21:24:00 / 修改時間：21:58:56" itemprop="dateCreated datePublished" datetime="2020-05-17T21:24:00+08:00">2020-05-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -197,11 +739,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="tkinter-所有元件"><a href="#tkinter-所有元件" class="headerlink" title="tkinter 所有元件:"></a>tkinter 所有元件:</h3><p><img src="/images/All_GUI.jpg" alt="21 種 GUI 元件"></p>
+          <h3 id="tkinter-所有元件"><a href="#tkinter-所有元件" class="headerlink" title="tkinter 所有元件:"></a>tkinter 所有元件:</h3><p><img src="/images/Tkinter_GUI/All_GUI.jpg" alt="21 種 GUI 元件"></p>
 <h3 id="基本視窗"><a href="#基本視窗" class="headerlink" title="基本視窗:"></a>基本視窗:</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tkinter <span class="keyword">as</span> tk</span><br><span class="line">root = tk.Tk()</span><br><span class="line"><span class="comment">#視窗標題</span></span><br><span class="line">root.title(<span class="string">'hello'</span>)</span><br><span class="line"><span class="comment">#寬度 200</span></span><br><span class="line"><span class="comment">#高度 250</span></span><br><span class="line"><span class="comment">#螢幕位置 X 300</span></span><br><span class="line"><span class="comment">#螢幕位置 Y 400</span></span><br><span class="line">root.geometry(<span class="string">'200x250+300+400'</span>)</span><br><span class="line"><span class="comment">#運行視窗</span></span><br><span class="line">root.mainloop()</span><br></pre></td></tr></table></figure>
-<p><img src="/images/window.jpg" alt="基本視窗"></p>
-<h3 id="1-BitmapImage"><a href="#1-BitmapImage" class="headerlink" title="1.BitmapImage:"></a>1.BitmapImage:</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#開啟檔案 images.xbm</span></span><br><span class="line"><span class="comment">#也可使用 bitmap = tk.BitmapImage(data=bitmapData)</span></span><br><span class="line">bitmap = tk.BitmapImage(file=<span class="string">'images.xbm'</span>)</span><br><span class="line">tk.Label(root, image=bitmap).pack()</span><br></pre></td></tr></table></figure>
-<p><img src="/images/BitmapImage.jpg" alt="BitmapImage展示"></p>
+<p><img src="/images/Tkinter_GUI/window.jpg" alt="基本視窗"></p>
+<h1 id="1-BitmapImage"><a href="#1-BitmapImage" class="headerlink" title="1.BitmapImage:"></a>1.BitmapImage:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#開啟檔案 images.xbm</span></span><br><span class="line"><span class="comment">#也可使用 bitmap = tk.BitmapImage(data=bitmapData)</span></span><br><span class="line">bitmap = tk.BitmapImage(file=<span class="string">'images.xbm'</span>)</span><br><span class="line">tk.Label(root, image=bitmap).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/BitmapImage.jpg" alt="BitmapImage展示"></p>
+<h1 id="2-Button"><a href="#2-Button" class="headerlink" title="2.Button:"></a>2.Button:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line"> print(<span class="string">'hello'</span>)</span><br><span class="line"><span class="comment">#按下時會顯示 hello</span></span><br><span class="line">tk.Button(root, text=<span class="string">'Button1'</span>, command=hello).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Button.jpeg" alt="Button展示"></p>
+<h1 id="3-Canvas"><a href="#3-Canvas" class="headerlink" title="3.Canvas:"></a>3.Canvas:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#背景設為紅色</span></span><br><span class="line">canvas = tk.Canvas(root, bg=<span class="string">'red'</span>)</span><br><span class="line">canvas.pack()</span><br><span class="line"><span class="comment">#從 (0, 0) 位置畫線到 (200, 250) 位置</span></span><br><span class="line">canvas.create_line(<span class="number">0</span>, <span class="number">0</span>, <span class="number">200</span>, <span class="number">250</span>)</span><br><span class="line"><span class="comment">#從 (200, 0) 位置畫線到 (0, 250) 位置</span></span><br><span class="line">canvas.create_line(<span class="number">200</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">250</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Canvas.jpg" alt="Canvas展示"></p>
+<h1 id="4-Checkbutton"><a href="#4-Checkbutton" class="headerlink" title="4.Checkbutton:"></a>4.Checkbutton:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">()</span>:</span></span><br><span class="line"> <span class="comment">#提取目前 var 內容</span></span><br><span class="line"> print(var.get())</span><br><span class="line"><span class="comment">#設定變數 Int 型別儲存目前內容</span></span><br><span class="line">var = tk.IntVar()</span><br><span class="line"><span class="comment">#儲存的資料位置為 var</span></span><br><span class="line"><span class="comment">#勾選時值設為1 未勾選則設為0 每次按下皆顯示目前狀態</span></span><br><span class="line">tk.Checkbutton(root, variable=var, text=<span class="string">'Check'</span>, onvalue=<span class="number">1</span>, offvalue=<span class="number">0</span>, command=check).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Checkbutton.jpg" alt="Checkbutton展示"></p>
+<h1 id="5-Entry"><a href="#5-Entry" class="headerlink" title="5.Entry:"></a>5.Entry:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">()</span>:</span></span><br><span class="line"> <span class="comment">#提取目前內容</span></span><br><span class="line"> print(entry.get())</span><br><span class="line">entry = tk.Entry(root)</span><br><span class="line">entry.pack()</span><br><span class="line"><span class="comment">#按下時會顯示目前 Entry 內容</span></span><br><span class="line">tk.Button(root, text=<span class="string">'Button'</span>, command=check).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Entry.jpg" alt="Entry展示"></p>
+<h1 id="6-Frame"><a href="#6-Frame" class="headerlink" title="6.Frame:"></a>6.Frame:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#背景設為紅色</span></span><br><span class="line"><span class="comment">#創建可容納物件的框架</span></span><br><span class="line">frame = tk.Frame(root, bg=<span class="string">'red'</span>, width=<span class="number">100</span>, height=<span class="number">100</span>)</span><br><span class="line">frame.pack()</span><br><span class="line"><span class="comment">#把 Label 放入 Frame</span></span><br><span class="line">tk.Label(frame, text=<span class="string">'Label'</span>).place(x=<span class="number">30</span>, y=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Frame.jpg" alt="Frame展示"></p>
+<h1 id="7-Label"><a href="#7-Label" class="headerlink" title="7.Label:"></a>7.Label:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tk.Label(root, text=<span class="string">'Label'</span>).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Label.jpg" alt="Label展示"></p>
+<h1 id="8-LabelFrame"><a href="#8-LabelFrame" class="headerlink" title="8.LabelFrame:"></a>8.LabelFrame:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#創建帶有標籤且可容納物件的框架</span></span><br><span class="line">labelframe = tk.LabelFrame(root, text=<span class="string">'Label Frame'</span>)</span><br><span class="line">labelframe.pack()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">()</span>:</span></span><br><span class="line"> <span class="comment">#提取目前 var 內容</span></span><br><span class="line"> print(var.get())</span><br><span class="line"><span class="comment">#設定變數 Int 型別儲存目前內容</span></span><br><span class="line">var = tk.IntVar()</span><br><span class="line">tk.Checkbutton(labelframe, variable=var, text=<span class="string">'Check'</span>, onvalue=<span class="number">1</span>, offvalue=<span class="number">0</span>, command=check).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/LabelFrame.jpg" alt="LabelFrame展示"></p>
+<h1 id="9-Listbox"><a href="#9-Listbox" class="headerlink" title="9.Listbox:"></a>9.Listbox:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#設定變數 String 型別儲存目前內容</span></span><br><span class="line">var = tk.StringVar()</span><br><span class="line"><span class="comment">#設置 var 內容</span></span><br><span class="line">var.set([<span class="string">'box1'</span>, <span class="string">'box2'</span>])</span><br><span class="line">entry = tk.Entry(root)</span><br><span class="line">entry.pack()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert</span><span class="params">()</span>:</span></span><br><span class="line"> <span class="comment">#將 Entry 的內容取出插入至 Listbox 的最後</span></span><br><span class="line"> listbox.insert(<span class="string">'end'</span>, entry.get())</span><br><span class="line">tk.Button(root, text=<span class="string">'Insert'</span>, command=insert).pack()</span><br><span class="line"><span class="comment">#儲存的資料位置為 var</span></span><br><span class="line">listbox = tk.Listbox(root, listvariable=var)</span><br><span class="line">listbox.pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Listbox.jpg" alt="Listbox展示"></p>
+<h1 id="10-Menu"><a href="#10-Menu" class="headerlink" title="10.Menu:"></a>10.Menu:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line"> print(<span class="string">'hello'</span>)</span><br><span class="line"><span class="comment">#創建菜單框架</span></span><br><span class="line">menu = tk.Menu(root)</span><br><span class="line"><span class="comment">#tearoff=False 關閉菜單裡的虛線欄</span></span><br><span class="line">filemenu = tk.Menu(menu, tearoff=<span class="literal">False</span>)</span><br><span class="line"><span class="comment">#將 filemenu 放入 menu 菜單</span></span><br><span class="line">menu.add_cascade(menu=filemenu, label=<span class="string">'File'</span>)</span><br><span class="line"><span class="comment">#增加菜單選項</span></span><br><span class="line">filemenu.add_command(label=<span class="string">'Hello'</span>, command=hello)</span><br><span class="line"><span class="comment">#增加分隔線</span></span><br><span class="line">filemenu.add_separator()</span><br><span class="line"><span class="comment">#增加菜單選項</span></span><br><span class="line">filemenu.add_command(label=<span class="string">'Exit'</span>, command=root.quit)</span><br><span class="line"><span class="comment">#將 menu 菜單放入 root</span></span><br><span class="line">root.config(menu=menu)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Menu.jpg" alt="Menu展示"></p>
+<h1 id="11-Menubutton"><a href="#11-Menubutton" class="headerlink" title="11.Menubutton:"></a>11.Menubutton:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line"> print(<span class="string">'hello'</span>)</span><br><span class="line"><span class="comment"># relief='raised' 使外框凸起看起像Button</span></span><br><span class="line"><span class="comment">#創建一個 Menubutton 若裡面沒放物件則無法按下</span></span><br><span class="line">menubutton = tk.Menubutton(root, text=<span class="string">'Menubutton'</span>, relief=<span class="string">'raised'</span>)</span><br><span class="line">menubutton.pack()</span><br><span class="line"><span class="comment">#創建一個 Menu 放入 Menubutton 裡面</span></span><br><span class="line">menubutton.menu = tk.Menu(menubutton, tearoff=<span class="literal">False</span>)</span><br><span class="line"><span class="comment">#固定進 menubutton</span></span><br><span class="line">menubutton[<span class="string">'menu'</span>] = menubutton.menu</span><br><span class="line"><span class="comment">#放入一個物件進 menubutton</span></span><br><span class="line">menubutton.menu.add_command(label=<span class="string">'Hello'</span>, command=hello)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Menubutton.jpg" alt="Menubutton展示"></p>
+<h1 id="12-Message"><a href="#12-Message" class="headerlink" title="12.Message:"></a>12.Message:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#設定變數 String 型別儲存目前內容</span></span><br><span class="line">var = tk.StringVar()</span><br><span class="line"><span class="comment">#設置 var 內容</span></span><br><span class="line">var.set(<span class="string">'Hello'</span>)</span><br><span class="line"><span class="comment">#儲存的資料位置為 var</span></span><br><span class="line"><span class="comment"># relief='raised' 使外框凸起看起像Button</span></span><br><span class="line">tk.Message(root, textvariable=var, relief=<span class="string">'raised'</span>).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Message.jpg" alt="Message展示"></p>
+<h1 id="13-OptionMenu"><a href="#13-OptionMenu" class="headerlink" title="13.OptionMenu:"></a>13.OptionMenu:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">()</span>:</span></span><br><span class="line"> <span class="comment">#提取目前 var 內容</span></span><br><span class="line"> print(var.get())</span><br><span class="line"><span class="comment">#設定變數 String 型別儲存目前內容</span></span><br><span class="line">var = tk.StringVar()</span><br><span class="line"><span class="comment">#設置 var 內容</span></span><br><span class="line">var.set(<span class="string">'Hello'</span>)</span><br><span class="line"><span class="comment">#儲存的資料位置為 var</span></span><br><span class="line"><span class="comment"># 'Hello', 'Option1', 'Option2', 'Option3' 為選項的內容</span></span><br><span class="line">tk.OptionMenu(root, var, <span class="string">'Hello'</span>, <span class="string">'Option1'</span>, <span class="string">'Option2'</span>, <span class="string">'Option3'</span>).pack()</span><br><span class="line"><span class="comment">#按下時會顯示目前選擇的內容</span></span><br><span class="line">tk.Button(root, text=<span class="string">'Check'</span>, command=check).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/OptionMenu.jpg" alt="OptionMenu展示"></p>
+<h1 id="14-PanedWindow"><a href="#14-PanedWindow" class="headerlink" title="14.PanedWindow:"></a>14.PanedWindow:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#背景設為紅色</span></span><br><span class="line">panedwindow = tk.PanedWindow(bg=<span class="string">'red'</span>)</span><br><span class="line"><span class="comment"># fill='both' 向 x 軸和 y 軸填滿</span></span><br><span class="line"><span class="comment"># expand=1 開啟 fill</span></span><br><span class="line">panedwindow.pack(fill=<span class="string">'both'</span>, expand=<span class="number">1</span>)</span><br><span class="line"><span class="comment">#新增物件進 panedwindow</span></span><br><span class="line">panedwindow.add(tk.Label(panedwindow, text=<span class="string">'Label1'</span>, bg=<span class="string">'orange'</span>))</span><br><span class="line"><span class="comment">#新增物件進 panedwindow</span></span><br><span class="line">panedwindow.add(tk.Label(panedwindow, text=<span class="string">'Label2'</span>, bg=<span class="string">'yellow'</span>))</span><br><span class="line"><span class="comment">#創建新的 PanedWindow 物件 orient='vertical' 放置方式為垂直</span></span><br><span class="line">newpaned = tk.PanedWindow(bg=<span class="string">'black'</span>, orient=<span class="string">'vertical'</span>)</span><br><span class="line"><span class="comment">#新增物件進 panedwindow</span></span><br><span class="line">panedwindow.add(newpaned)</span><br><span class="line"><span class="comment">#新增物件進 newpaned</span></span><br><span class="line">newpaned.add(tk.Label(newpaned, text=<span class="string">'Label3'</span>, bg=<span class="string">'greenyellow'</span>))</span><br><span class="line"><span class="comment">#新增物件進 newpaned</span></span><br><span class="line">newpaned.add(tk.Label(newpaned, text=<span class="string">'Label4'</span>, bg=<span class="string">'lightblue'</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/PanedWindow.jpg" alt="PanedWindow展示"></p>
+<h1 id="15-PhotoImage"><a href="#15-PhotoImage" class="headerlink" title="15.PhotoImage:"></a>15.PhotoImage:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#開啟檔案 images.png</span></span><br><span class="line"><span class="comment">#檔案 jpg png gif 中支援 png gif 不支援 jpg</span></span><br><span class="line">image = tk.PhotoImage(file=<span class="string">'images.png'</span>)</span><br><span class="line">tk.Label(root, image=image).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/PhotoImage.jpg" alt="PhotoImage展示"></p>
+<h1 id="16-Radiobutton"><a href="#16-Radiobutton" class="headerlink" title="16.Radiobutton:"></a>16.Radiobutton:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">()</span>:</span></span><br><span class="line"> <span class="comment">#提取目前 var 內容</span></span><br><span class="line"> print(var.get())</span><br><span class="line"><span class="comment">#設定變數 String 型別儲存目前內容</span></span><br><span class="line">var = tk.StringVar()</span><br><span class="line"><span class="comment">#設置 var 內容</span></span><br><span class="line">var.set(<span class="string">'A'</span>)</span><br><span class="line"><span class="comment">#新增選項</span></span><br><span class="line">tk.Radiobutton(root, variable=var, text=<span class="string">'Option A'</span>, value=<span class="string">'A'</span>).pack()</span><br><span class="line"><span class="comment">#新增選項</span></span><br><span class="line">tk.Radiobutton(root, variable=var, text=<span class="string">'Option B'</span>, value=<span class="string">'B'</span>).pack()</span><br><span class="line"><span class="comment">#新增選項</span></span><br><span class="line">tk.Radiobutton(root, variable=var, text=<span class="string">'Option C'</span>, value=<span class="string">'C'</span>).pack()</span><br><span class="line"><span class="comment">#按下時會顯示目前選擇的內容</span></span><br><span class="line">tk.Button(root, text=<span class="string">'Check'</span>, command=check).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Radiobutton.jpg" alt="Radiobutton展示"></p>
+<h1 id="17-Scale"><a href="#17-Scale" class="headerlink" title="17.Scale:"></a>17.Scale:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># from_=0 從 0 開始</span></span><br><span class="line"><span class="comment"># to=100 到 100</span></span><br><span class="line"><span class="comment"># orient='horizontal' 水平對齊</span></span><br><span class="line"><span class="comment"># tickinterval=20 每 20 單位顯示標記</span></span><br><span class="line"><span class="comment"># resolution=0.1 移動最小單位為 0.1</span></span><br><span class="line"><span class="comment"># fill='x' 向 x 軸填滿</span></span><br><span class="line"><span class="comment"># showvalue=True 顯示目前的數字</span></span><br><span class="line">tk.Scale(root, label=<span class="string">'Scale'</span>, from_=<span class="number">0</span>, to=<span class="number">100</span>, orient=<span class="string">'horizontal'</span>, tickinterval=<span class="number">20</span>, resolution=<span class="number">0.1</span>, showvalue=<span class="literal">True</span>).pack(fill=<span class="string">'x'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Scale.jpg" alt="Scale展示"></p>
+<h1 id="18-Scrollbar"><a href="#18-Scrollbar" class="headerlink" title="18.Scrollbar:"></a>18.Scrollbar:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#可配合 listboxs/canvases/text 元件使用</span></span><br><span class="line"><span class="comment">#創建 scrollbar</span></span><br><span class="line">scrollbar = tk.Scrollbar(root)</span><br><span class="line"><span class="comment"># side='right' 放入右邊</span></span><br><span class="line"><span class="comment"># fill='y' 向 y 軸填滿</span></span><br><span class="line">scrollbar.pack(side=<span class="string">'right'</span>, fill=<span class="string">'y'</span>)</span><br><span class="line"><span class="comment">#創建 listbox</span></span><br><span class="line">listbox = tk.Listbox(root, yscrollcommand=scrollbar.set)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line"> <span class="comment">#插入內容到 listbox 尾端</span></span><br><span class="line"> listbox.insert(<span class="string">'end'</span>, i)</span><br><span class="line"><span class="comment"># side='left' 放入左邊</span></span><br><span class="line"><span class="comment"># fill='both' 向 x 軸和 y 軸填滿</span></span><br><span class="line"><span class="comment"># expand=1 開啟 fill</span></span><br><span class="line">listbox.pack(side=<span class="string">'left'</span>, fill=<span class="string">'both'</span>, expand=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># scrollbar 移動時使 listbox 跟著移動</span></span><br><span class="line">scrollbar.config(command=listbox.yview)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Scrollbar.jpg" alt="Scrollbar展示"></p>
+<h1 id="19-Spinbox"><a href="#19-Spinbox" class="headerlink" title="19.Spinbox:"></a>19.Spinbox:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># from_=0 從 0 開始</span></span><br><span class="line"><span class="comment"># to=100 到 100</span></span><br><span class="line">tk.Spinbox(root, from_=<span class="number">0</span>, to=<span class="number">100</span>).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Spinbox.jpg" alt="Spinbox展示"></p>
+<h1 id="20-Text"><a href="#20-Text" class="headerlink" title="20.Text:"></a>20.Text:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert</span><span class="params">()</span>:</span></span><br><span class="line"> <span class="comment">#插入內容到 text 尾端</span></span><br><span class="line"> text.insert(<span class="string">'end'</span>, <span class="string">'hello'</span>)</span><br><span class="line"><span class="comment"># width=20 寬度設為 20</span></span><br><span class="line"><span class="comment"># height=10 高度設為 10</span></span><br><span class="line">text = tk.Text(root, width=<span class="number">20</span>, height=<span class="number">10</span>)</span><br><span class="line">text.pack()</span><br><span class="line"><span class="comment">#按下時會插入 hello 至 text</span></span><br><span class="line">tk.Button(root, text=<span class="string">'Insert'</span>, command=insert).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Text.jpg" alt="Text展示"></p>
+<h1 id="21-Toplevel"><a href="#21-Toplevel" class="headerlink" title="21.Toplevel:"></a>21.Toplevel:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tk.Label(root, text=<span class="string">'Root label'</span>).pack()</span><br><span class="line"><span class="comment">#創建 Toplevel</span></span><br><span class="line">toplevel = tk.Toplevel()</span><br><span class="line"><span class="comment">#寬度 200</span></span><br><span class="line"><span class="comment">#高度 250</span></span><br><span class="line"><span class="comment">#螢幕位置 X 500</span></span><br><span class="line"><span class="comment">#螢幕位置 Y 400</span></span><br><span class="line">toplevel.geometry(<span class="string">'200x250+500+400'</span>)</span><br><span class="line"><span class="comment">#視窗標題</span></span><br><span class="line">toplevel.title(<span class="string">'Toplevel'</span>)</span><br><span class="line">tk.Label(toplevel, text=<span class="string">'Toplevel label'</span>).pack()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Tkinter_GUI/Toplevel.jpg" alt="Toplevel展示"></p>
 
       
     </div>
@@ -244,8 +826,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2020-05-17 21:18:04" itemprop="dateCreated datePublished" datetime="2020-05-17T21:18:04+08:00">2020-05-17</time>
+              <time title="創建時間：2020-05-17 21:18:04 / 修改時間：22:25:12" itemprop="dateCreated datePublished" datetime="2020-05-17T21:18:04+08:00">2020-05-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -314,7 +897,7 @@
               <span class="post-meta-item-text">發表於</span>
               
 
-              <time title="創建時間：2020-05-17 21:12:43 / 修改時間：21:16:31" itemprop="dateCreated datePublished" datetime="2020-05-17T21:12:43+08:00">2020-05-17</time>
+              <time title="創建時間：2020-05-17 21:12:43 / 修改時間：22:24:45" itemprop="dateCreated datePublished" datetime="2020-05-17T21:12:43+08:00">2020-05-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -360,417 +943,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-Numpy_max_maximum/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Sonnnn">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/Python-Numpy_max_maximum/" class="post-title-link" itemprop="url">Python — Numpy max() maximum()</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-              
-
-              <time title="創建時間：2020-05-17 21:09:07 / 修改時間：21:16:29" itemprop="dateCreated datePublished" datetime="2020-05-17T21:09:07+08:00">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/Numpy/" itemprop="url" rel="index"><span itemprop="name">Numpy</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Max和Maximum的差別為:</p>
-<h3 id="np-max"><a href="#np-max" class="headerlink" title="np.max()"></a>np.max()</h3><p>最少接收一個參數，回傳所有內容的最大值</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">value = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>]</span><br><span class="line">print(np.max(value))</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure>
-<h3 id="np-maximum-A-B"><a href="#np-maximum-A-B" class="headerlink" title="np.maximum(A, B)"></a>np.maximum(A, B)</h3><p>最少接收兩個參數，回傳A與B逐個比較的最大值</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">value = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="number">8</span>]</span><br><span class="line">print(np.maximum(value, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">4</span> <span class="number">4</span> <span class="number">4</span> <span class="number">4</span> <span class="number">5</span> <span class="number">4</span> <span class="number">9</span> <span class="number">4</span> <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-empty/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Sonnnn">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/Python-empty/" class="post-title-link" itemprop="url">Python-empty</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-              
-
-              <time title="創建時間：2020-05-17 21:03:31 / 修改時間：21:18:21" itemprop="dateCreated datePublished" datetime="2020-05-17T21:03:31+08:00">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-tf_np_argmax/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Sonnnn">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/Python-tf_np_argmax/" class="post-title-link" itemprop="url">Python — (tf/np).argmax()</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-              
-
-              <time title="創建時間：2020-05-17 20:59:26 / 修改時間：21:16:28" itemprop="dateCreated datePublished" datetime="2020-05-17T20:59:26+08:00">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Tensorflow 和 Numpy 中都有個 argmax()<br>兩種用法都一樣(差別在tensorflow 要用 <code>sess.run()</code> 啟動)下面只展示numpy<br>用法如下:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">arr = np.array([[<span class="number">1</span>, <span class="number">10</span>, <span class="number">3</span>], [<span class="number">6</span>, <span class="number">5</span>, <span class="number">11</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>], [<span class="number">12</span>, <span class="number">2</span>, <span class="number">4</span>]])</span><br><span class="line">print(<span class="string">'axis=0'</span>, np.argmax(arr, axis=<span class="number">0</span>))</span><br><span class="line">print(<span class="string">'axis=1'</span>, np.argmax(arr, axis=<span class="number">1</span>))</span><br><span class="line"><span class="comment"># arr[0] = [1, 10,  3]</span></span><br><span class="line"><span class="comment"># arr[1] = [6,  5, 11]</span></span><br><span class="line"><span class="comment"># arr[2] = [7,  8,  9]</span></span><br><span class="line"><span class="comment"># arr[3] = [12, 2,  4]</span></span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">axis=<span class="number">0</span> [<span class="number">3</span> <span class="number">0</span> <span class="number">1</span>]</span><br><span class="line">axis=<span class="number">1</span> [<span class="number">1</span> <span class="number">2</span> <span class="number">2</span> <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-<p>*<em>當axis=0時，會比對在column中最大數字回傳它的索引值<br>*</em>當axis=1時，會比對在row中最大數字回傳它的索引值</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-list/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Sonnnn">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/Python-list/" class="post-title-link" itemprop="url">Python — list</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-              
-
-              <time title="創建時間：2020-05-17 20:51:20 / 修改時間：20:58:47" itemprop="dateCreated datePublished" datetime="2020-05-17T20:51:20+08:00">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>-extend() append() insert()<br>在 Python 中 List 是常常會用到的，其中 List 的一個功能是 extend<br>使用方法如下:<br>###使用 String 型別</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List = list([<span class="string">'value'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.extend(<span class="string">'string'</span>)</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'value'</span>]</span><br><span class="line">[<span class="string">'value'</span>, <span class="string">'s'</span>, <span class="string">'t'</span>, <span class="string">'r'</span>, <span class="string">'i'</span>, <span class="string">'n'</span>, <span class="string">'g'</span>]</span><br></pre></td></tr></table></figure>
-<p>extend將會分割每個字元放入</p>
-<p>###使用 List 型別</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List = list([<span class="string">'value'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.extend([<span class="string">'hello'</span>, <span class="string">'world'</span>])</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'value'</span>]</span><br><span class="line">[<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br></pre></td></tr></table></figure>
-<p>extend將會把每個陣列內容放入</p>
-<p>###使用 Tuple 型別</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List = list([<span class="string">'value'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.extend((<span class="string">'hello'</span>, <span class="string">'world'</span>, <span class="string">'tuple'</span>))</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&#39;value&#39;]</span><br><span class="line">[&#39;value&#39;, &#39;hello&#39;, &#39;world&#39;, &#39;tuple&#39;]</span><br></pre></td></tr></table></figure>
-<p>結果將會和List一樣</p>
-<p>###使用 Dict 型別</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List = list([<span class="string">'value'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.extend(&#123;<span class="string">'hello'</span>:<span class="string">'world'</span>, <span class="string">'dict'</span>:<span class="string">'tuple'</span>&#125;)</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'value'</span>]</span><br><span class="line">[<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'dict'</span>]</span><br></pre></td></tr></table></figure>
-<p>extend將只會把key值傳入而已</p>
-<p>###接下來是append</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List = list()</span><br><span class="line">print(List)</span><br><span class="line">List.append(<span class="string">'list'</span>)</span><br><span class="line">print(List)</span><br><span class="line">List.append(<span class="number">1</span>)</span><br><span class="line">print(List)</span><br><span class="line">List.append(&#123;<span class="string">'hello'</span>:<span class="string">'world'</span>&#125;)</span><br><span class="line">print(List)</span><br><span class="line">List.append((<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'tuple'</span>))</span><br><span class="line">print(List)</span><br><span class="line">List.append([<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'list'</span>])</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[]</span><br><span class="line">[<span class="string">'list'</span>]</span><br><span class="line">[<span class="string">'list'</span>, <span class="number">1</span>]</span><br><span class="line">[<span class="string">'list'</span>, <span class="number">1</span>, &#123;<span class="string">'hello'</span>: <span class="string">'world'</span>&#125;]</span><br><span class="line">[<span class="string">'list'</span>, <span class="number">1</span>, &#123;<span class="string">'hello'</span>: <span class="string">'world'</span>&#125;, (<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'tuple'</span>)]</span><br><span class="line">[<span class="string">'list'</span>, <span class="number">1</span>, &#123;<span class="string">'hello'</span>: <span class="string">'world'</span>&#125;, (<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'tuple'</span>), [<span class="string">'this'</span>, <span class="string">'is'</span>, <span class="string">'list'</span>]]</span><br></pre></td></tr></table></figure>
-<p>**不管什麼型別資料只會放入最後，且一次只能傳一個參數</p>
-<p>###最後就是insert<br>使用 Int 和 String 型別</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List = list([<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.insert(<span class="number">1</span>, <span class="number">22</span>)</span><br><span class="line">print(List)</span><br><span class="line">List.insert(<span class="number">1</span>, <span class="string">'insert'</span>)</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br><span class="line">[<span class="string">'value'</span>, <span class="number">22</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br><span class="line">[<span class="string">'value'</span>, <span class="string">'insert'</span>, <span class="number">22</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br></pre></td></tr></table></figure>
-<p>新加入的資料內容就被依序插入至第一個陣列內容<br>使用 List 和 Tuple 型別</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List = list([<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.insert(<span class="number">1</span>, [<span class="string">'insert'</span>, <span class="string">'list'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.insert(<span class="number">1</span>, (<span class="string">'insert'</span>, <span class="string">'tuple'</span>))</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br><span class="line">[<span class="string">'value'</span>, [<span class="string">'insert'</span>, <span class="string">'list'</span>], <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br><span class="line">[<span class="string">'value'</span>, (<span class="string">'insert'</span>, <span class="string">'tuple'</span>), [<span class="string">'insert'</span>, <span class="string">'list'</span>], <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br></pre></td></tr></table></figure>
-<p>使用 Dict 型別</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List = list([<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>])</span><br><span class="line">print(List)</span><br><span class="line">List.insert(<span class="number">1</span>, &#123;<span class="string">'insert'</span>:<span class="number">1</span>, <span class="string">'dict'</span>:<span class="number">2</span>&#125;)</span><br><span class="line">print(List)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'value'</span>, <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br><span class="line">[<span class="string">'value'</span>, &#123;<span class="string">'insert'</span>: <span class="number">1</span>, <span class="string">'dict'</span>: <span class="number">2</span>&#125;, <span class="string">'hello'</span>, <span class="string">'world'</span>]</span><br></pre></td></tr></table></figure>
-<p>**insert 不管什麼資料皆可原封不動插入至陣列</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/17/Python-args_kwargs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Sonnnn">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/Python-args_kwargs/" class="post-title-link" itemprop="url">Python — *args 和 **kwargs</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-              
-
-              <time title="創建時間：2020-05-17 20:38:12 / 修改時間：20:50:20" itemprop="dateCreated datePublished" datetime="2020-05-17T20:38:12+08:00">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時 <code>*args</code> 和 <code>**kwargs</code> 就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(type(args))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在此函數中我們固定了前兩個的傳值數量，剩下傳入的值都會歸args所有<br>**注意args是tuple型態</p>
-<h3 id="kwargs-是屬於鍵值的參數就是字典-dict"><a href="#kwargs-是屬於鍵值的參數就是字典-dict" class="headerlink" title="**kwargs 是屬於鍵值的參數就是字典(dict)"></a><code>**kwargs</code> 是屬於鍵值的參數就是字典(dict)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, **kwargs)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'kwargs'</span>, kwargs)</span><br><span class="line">  print(type(kwargs))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, z=<span class="number">9</span>, y=<span class="number">8</span>, x=<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">kwargs &#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">dict</span>'&gt;</span></span><br></pre></td></tr></table></figure>
-<p>所謂字典(dict)就是長這樣的, 前面是key值後面是value值，在此函數中我們固定了前兩個的傳值數量，剩下傳入的key=value值都會歸kwargs所有</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>**注意傳入時的key值不可和函數內固定的參數名稱重複<br>若在一個函數需要用到兩個可變參數時:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args, **kwargs)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(<span class="string">'kwargs'</span>, kwargs)</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>, z=<span class="number">9</span>, y=<span class="number">8</span>, x=<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>)</span><br><span class="line">kwargs &#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>要注意 <code>*args</code> 一定要在 `</strong>kwargs` 前面否則會出現錯誤!</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+  </nav>
 
 
 
@@ -835,18 +1012,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>

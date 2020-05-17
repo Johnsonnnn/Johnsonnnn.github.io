@@ -20,28 +20,32 @@
     var CONFIG = {"hostname":"johnsonnnn.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="My blog">
-<meta property="og:url" content="https://johnsonnnn.github.io/index.html">
+  <meta name="description" content="在寫Python時，常會遇到需要傳不固定的參數值，這時args和*kwargs就發揮得很大的功效。這兩個都是可變參數，不同的地方是:args是非鍵值的參數，也就是傳一般的值但是長度是可變的 123456def func(a, b, *args):  print(&#39;a&#39;, a)  print(&#39;b&#39;, b)  print(&#39;args&#39;, args)  print(type(args))func(1,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python — *args 和 **kwargs">
+<meta property="og:url" content="https://johnsonnnn.github.io/2020/05/17/Python-args_kwargs/index.html">
 <meta property="og:site_name" content="My blog">
+<meta property="og:description" content="在寫Python時，常會遇到需要傳不固定的參數值，這時args和*kwargs就發揮得很大的功效。這兩個都是可變參數，不同的地方是:args是非鍵值的參數，也就是傳一般的值但是長度是可變的 123456def func(a, b, *args):  print(&#39;a&#39;, a)  print(&#39;b&#39;, b)  print(&#39;args&#39;, args)  print(type(args))func(1,">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-05-17T12:38:12.030Z">
+<meta property="article:modified_time" content="2020-05-17T12:44:03.671Z">
 <meta property="article:author" content="John Sonnnn">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://johnsonnnn.github.io/">
+<link rel="canonical" href="https://johnsonnnn.github.io/2020/05/17/Python-args_kwargs/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-TW'
   };
 </script>
 
-  <title>My blog</title>
+  <title>Python — *args 和 **kwargs | My blog</title>
   
 
 
@@ -140,9 +144,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
@@ -158,10 +163,9 @@
       <meta itemprop="name" content="My blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/Python-args_kwargs/" class="post-title-link" itemprop="url">Python — *args 和 **kwargs</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Python — *args 和 **kwargs
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -194,7 +198,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時args和-kwargs就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時args和-kwargs就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時args和*kwargs就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時<em>args和*</em>kwargs就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
+        <h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時args和-kwargs就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時args和-kwargs就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時args和*kwargs就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時<em>args和*</em>kwargs就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(type(args))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
 <p>結果:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br></pre></td></tr></table></figure>
@@ -210,177 +214,30 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>)</span><br><span class="line">kwargs &#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>要注意*args一定要在</strong>kwargs前面否則會出現錯誤!</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/15/Python/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Sonnnn">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/15/Python/" class="post-title-link" itemprop="url">Hello this is Python</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-
-              <time title="創建時間：2020-05-15 17:00:02" itemprop="dateCreated datePublished" datetime="2020-05-15T17:00:02+08:00">2020-05-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-05-17 19:46:02" itemprop="dateModified" datetime="2020-05-17T19:46:02+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = tf.Variable()</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo geneate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/15/Python/" rel="prev" title="Hello this is Python">
+      <i class="fa fa-chevron-left"></i> Hello this is Python
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://johnsonnnn.github.io/2020/05/15/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Sonnnn">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/15/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-
-              <time title="創建時間：2020-05-15 16:17:04" itemprop="dateCreated datePublished" datetime="2020-05-15T16:17:04+08:00">2020-05-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -433,6 +290,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在寫Python時，常會遇到需要傳不固定的參數值，這時args和-kwargs就發揮得很大的功效。"><span class="nav-number">1.</span> <span class="nav-text">在寫Python時，常會遇到需要傳不固定的參數值，這時args和*kwargs就發揮得很大的功效。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kwargs是屬於鍵值的參數就是字典-dict"><span class="nav-number">2.</span> <span class="nav-text">**kwargs是屬於鍵值的參數就是字典(dict)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

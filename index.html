@@ -548,8 +548,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2020-05-17 22:15:33" itemprop="dateCreated datePublished" datetime="2020-05-17T22:15:33+08:00">2020-05-17</time>
+              <time title="創建時間：2020-05-17 22:15:33 / 修改時間：22:51:25" itemprop="dateCreated datePublished" datetime="2020-05-17T22:15:33+08:00">2020-05-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -577,7 +578,7 @@
 
       
           <p>安裝完opencv-contrib-python後 <code>import cv2</code> 時出現:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt; File <span class="string">"/usr/local/lib/python3.7/site-packages/cv2/__init__.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> &lt;module&gt; <span class="keyword">from</span> .cv2 <span class="keyword">import</span> * ImportError: libhdf5_serial.so<span class="number">.103</span>: cannot open shared object file: No such file <span class="keyword">or</span> directory</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, </span><br><span class="line">line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt; File <span class="string">"/usr/local/lib/python3.7/</span></span><br><span class="line"><span class="string">site-packages/cv2/__init__.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> &lt;module&gt; </span><br><span class="line"><span class="keyword">from</span> .cv2 <span class="keyword">import</span> * ImportError: libhdf5_serial.so<span class="number">.103</span>: </span><br><span class="line">cannot open shared object file: No such file <span class="keyword">or</span> directory</span><br></pre></td></tr></table></figure>
 <p>— — — — — — 解決- — — — — — —</p>
 <h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h1><p>到 <code>cv2</code> 路徑下<br><code>cd /usr/local/lib/python3.7/site-packages/cv2</code><br>找到 <code>cv2.cpython-37m-arm-linux-gnueabihf.so</code></p>
 <h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h1><p>尋找未安裝的套件<br><code>&gt;&gt; ldd cv2.cpython-37m-arm-linux-gnueabihf.so | grep &quot;not found&quot;</code><br>Out::</p>
@@ -590,7 +591,7 @@
 <h1 id="Step5"><a href="#Step5" class="headerlink" title="Step5:"></a>Step5:</h1><p>安裝缺少的套件:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; sudo apt install libqt-4-test</span><br></pre></td></tr></table></figure>
 <p>直到所有套件都安裝即可<br>— — — — — — — — — — — — — — — — — — -</p>
-<h1 id="若出現"><a href="#若出現" class="headerlink" title="若出現:"></a>若出現:</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt; ImportError: /usr/<span class="built_in">local</span>/lib/python3.7/site-packages/cv2/cv2.cpython-37m-arm-linux-gnueabihf.so: undefined symbol: __atomic_fetch_add_8</span><br></pre></td></tr></table></figure>
+<h1 id="若出現"><a href="#若出現" class="headerlink" title="若出現:"></a>若出現:</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, line 1,</span><br><span class="line"> <span class="keyword">in</span> &lt;module&gt; ImportError: /usr/<span class="built_in">local</span>/lib/python3.7/site-packages/</span><br><span class="line"> cv2/cv2.cpython-37m-arm-linux-gnueabihf.so: undefined symbol: </span><br><span class="line"> __atomic_fetch_add_8</span><br></pre></td></tr></table></figure>
 <p>則可嘗試:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; pip install opencv-python==3.4.6.27</span><br></pre></td></tr></table></figure>
       

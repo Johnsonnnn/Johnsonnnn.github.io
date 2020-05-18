@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://johnsonnnn.github.io/images/Pyqt5_basewindow/step2.png">
 <meta property="og:image" content="https://johnsonnnn.github.io/images/Pyqt5_basewindow/step3.png">
 <meta property="article:published_time" content="2020-05-17T17:36:12.407Z">
-<meta property="article:modified_time" content="2020-05-17T17:41:56.938Z">
+<meta property="article:modified_time" content="2020-05-18T05:43:04.114Z">
 <meta property="article:author" content="John Sonnnn">
 <meta property="article:tag" content="Programming">
 <meta name="twitter:card" content="summary">
@@ -187,7 +187,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-18 01:36:12 / Modified: 01:41:56" itemprop="dateCreated datePublished" datetime="2020-05-18T01:36:12+08:00">2020-05-18</time>
+              <time title="Created: 2020-05-18 01:36:12 / Modified: 13:43:04" itemprop="dateCreated datePublished" datetime="2020-05-18T01:36:12+08:00">2020-05-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,7 +209,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.2k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -231,15 +231,9 @@
         <p>有三種常用的視窗 <code>QWidget</code> 、 <code>QMainWindow</code> 、 <code>QDialog</code><br><code>QWidget</code> 和 <code>QMainWindow</code> 基本上長的一樣，但 <code>QMainWindow</code> 可加入狀態<br>列、選單欄、標題欄是 <strong>GUI 的主視窗</strong><br><code>QWidget</code> 可為單一視窗也可嵌入到其他視窗內<br><code>QDialog</code> <strong>沒有</strong>選單欄、工具欄、狀態列，標題欄的<br><strong>最小化、最大化按鈕改為問號按鈕</strong></p>
 <h1 id="QWidget"><a href="#QWidget" class="headerlink" title="QWidget:"></a>QWidget:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets, QtCore, QtGui</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyWindow</span><span class="params">(QtWidgets.QWidget)</span>:</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">  super().__init__()</span><br><span class="line">  self.setupUi()</span><br><span class="line">  self.show()    <span class="comment">#有 show 才會顯示出視窗</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setupUi</span><span class="params">(self)</span>:</span></span><br><span class="line">  self.resize(<span class="number">200</span>, <span class="number">200</span>) <span class="comment">#設定大小</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">app = QtWidgets.QApplication(sys.argv)</span><br><span class="line">window = MyWindow() <span class="comment">#開始創建視窗</span></span><br><span class="line">sys.exit(app.exec_()) <span class="comment">#有這行才會保持開啟狀態，否則會閃一下就關閉</span></span><br></pre></td></tr></table></figure>
 <p><img src="/images/Pyqt5_basewindow/step1.png" alt="QWidget基本視窗"></p>
-<center>**QWidget基本視窗**</center>
-
 <h1 id="QMainWindow"><a href="#QMainWindow" class="headerlink" title="QMainWindow:"></a>QMainWindow:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets, QtCore, QtGui</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyWindow</span><span class="params">(QtWidgets.QMainWindow)</span>:</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">  super().__init__()</span><br><span class="line">  self.setupUi()</span><br><span class="line">  self.show()    <span class="comment">#有 show 才會顯示出視窗</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setupUi</span><span class="params">(self)</span>:</span></span><br><span class="line">  self.resize(<span class="number">200</span>, <span class="number">200</span>) <span class="comment">#設定大小</span></span><br><span class="line">  self.status=self.statusBar()</span><br><span class="line">  self.status.showMessage(<span class="string">"狀態列"</span>, <span class="number">3000</span>) <span class="comment">#在狀態列顯示文字"狀態列" 3秒</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">app = QtWidgets.QApplication(sys.argv)</span><br><span class="line">window = MyWindow() <span class="comment">#開始創建視窗</span></span><br><span class="line">sys.exit(app.exec_()) <span class="comment">#有這行才會保持開啟狀態，否則會閃一下就關閉</span></span><br></pre></td></tr></table></figure>
 <p><img src="/images/Pyqt5_basewindow/step2.png" alt="QMainWindow基本視窗"></p>
-<center>**QMainWindow基本視窗**</center>
-
 <h1 id="QDialog"><a href="#QDialog" class="headerlink" title="QDialog:"></a>QDialog:</h1><p><code>QDialog</code> 的使用跟上面 <code>QWidget</code> 一樣只是繼承的 <code>QtWidgets.QWidget</code> 換成<br> <code>QtWidgets.QDialog</code><br><img src="/images/Pyqt5_basewindow/step3.png" alt="QDialog基本視窗"></p>
-<center>**QDialog基本視窗**</center>
-
 <h1 id="其他常用到的視窗參數"><a href="#其他常用到的視窗參數" class="headerlink" title="其他常用到的視窗參數:"></a>其他常用到的視窗參數:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.setFixedSize(width, height) <span class="comment">#固定視窗的大小，不可縮放</span></span><br><span class="line">self.setWindowTitle(<span class="string">'window'</span>)    <span class="comment">#設定視窗標題</span></span><br><span class="line">self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  <span class="comment">#變成無邊框視窗</span></span><br></pre></td></tr></table></figure>
     </div>
 
@@ -401,7 +395,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">23 mins.</span>
+    <span title="Reading time total">22 mins.</span>
 </div>
 <span id="sitetime"></span>
 <script language=javascript>

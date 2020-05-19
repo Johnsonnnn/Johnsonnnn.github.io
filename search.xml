@@ -12,34 +12,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Install Opencv issue</title>
-    <url>/2020/05/17/Install_Opencv_issue/</url>
-    <content><![CDATA[<p>安裝完opencv-contrib-python後 <code>import cv2</code> 時出現:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, </span><br><span class="line">line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt; File <span class="string">"/usr/local/lib/python3.7/</span></span><br><span class="line"><span class="string">site-packages/cv2/__init__.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> &lt;module&gt; </span><br><span class="line"><span class="keyword">from</span> .cv2 <span class="keyword">import</span> * ImportError: libhdf5_serial.so<span class="number">.103</span>: </span><br><span class="line">cannot open shared object file: No such file <span class="keyword">or</span> directory</span><br></pre></td></tr></table></figure>
-<p>— — — — — — 解決- — — — — — —</p>
-<h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h1><p>到 <code>cv2</code> 路徑下<br><code>cd /usr/local/lib/python3.7/site-packages/cv2</code><br>找到 <code>cv2.cpython-37m-arm-linux-gnueabihf.so</code></p>
-<h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h1><p>尋找未安裝的套件<br><code>&gt;&gt; ldd cv2.cpython-37m-arm-linux-gnueabihf.so | grep &quot;not found&quot;</code><br>Out::</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">libQtTest.so.4 =&gt; not found</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h1><p>安裝 <code>apt-file</code><br><code>&gt;&gt; sudo apt install apt-file</code></p>
-<h1 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h1><p>搜尋套件:<br><code>&gt;&gt; apt-file search libQtTest.so.4</code><br>Out::(冒號前面是套件名稱)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4</span><br><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4.8</span><br><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4.8.7</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step5"><a href="#Step5" class="headerlink" title="Step5:"></a>Step5:</h1><p>安裝缺少的套件:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt; sudo apt install libqt-4-test</span><br></pre></td></tr></table></figure>
-<p>直到所有套件都安裝即可<br>— — — — — — — — — — — — — — — — — — -</p>
-<h1 id="若出現"><a href="#若出現" class="headerlink" title="若出現:"></a>若出現:</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, line 1,</span><br><span class="line"> <span class="keyword">in</span> &lt;module&gt; ImportError: /usr/<span class="built_in">local</span>/lib/python3.7/site-packages/</span><br><span class="line"> cv2/cv2.cpython-37m-arm-linux-gnueabihf.so: undefined symbol: </span><br><span class="line"> __atomic_fetch_add_8</span><br></pre></td></tr></table></figure>
-<p>則可嘗試:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt; pip install opencv-python==3.4.6.27</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python</category>
-        <category>Opencv</category>
-      </categories>
-      <tags>
-        <tag>Install</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript — var let</title>
     <url>/2020/05/17/JavaScript-var_let/</url>
     <content><![CDATA[<p>JavaScript 中有其中兩種宣告分別是 <code>var</code> 跟 <code>let</code></p>
@@ -60,41 +32,24 @@
       </tags>
   </entry>
   <entry>
-    <title>Tf — Choice Top-k methods</title>
-    <url>/2020/05/17/Py-tf_topk/</url>
-    <content><![CDATA[<h1 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1:"></a>Method 1:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], [<span class="number">100</span>, <span class="number">99</span>, <span class="number">98</span>,</span><br><span class="line">                     <span class="number">97</span>, <span class="number">96</span>, <span class="number">95</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">92</span>, <span class="number">91</span>]])</span><br><span class="line">value, ids = tf.nn.top_k(data, <span class="number">8</span>)</span><br></pre></td></tr></table></figure>
-<p>Output:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[[ <span class="number">10</span>   <span class="number">9</span>   <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span>   <span class="number">5</span>   <span class="number">4</span>   <span class="number">3</span>]</span><br><span class="line"> [<span class="number">100</span>  <span class="number">99</span>  <span class="number">98</span>  <span class="number">97</span>  <span class="number">96</span>  <span class="number">95</span>  <span class="number">94</span>  <span class="number">93</span>]]</span><br></pre></td></tr></table></figure>
-
-<h1 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2:"></a>Method 2:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], [<span class="number">100</span>, <span class="number">99</span>, <span class="number">98</span>, </span><br><span class="line">                    <span class="number">97</span>, <span class="number">96</span>, <span class="number">95</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">92</span>, <span class="number">91</span>]])</span><br><span class="line">sorted_data = tf.sort(data, direction=<span class="string">'DESCENDING'</span>)</span><br><span class="line">data_range = tf.range(<span class="number">0</span>, sorted_data.shape[<span class="number">1</span>], <span class="number">1</span>)</span><br><span class="line">data_range = tf.expand_dims(data_range, <span class="number">0</span>)</span><br><span class="line">data_range = tf.tile(data_range, [sorted_data.shape[<span class="number">0</span>], <span class="number">1</span>])</span><br><span class="line">out = tf.where(tf.less(data_range, <span class="number">6</span>), sorted_data, tf.zeros_like(sorted_data))</span><br></pre></td></tr></table></figure>
-<p>Output:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[[ <span class="number">10</span>   <span class="number">9</span>   <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span>   <span class="number">5</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>]</span><br><span class="line"> [<span class="number">100</span>  <span class="number">99</span>  <span class="number">98</span>  <span class="number">97</span>  <span class="number">96</span>  <span class="number">95</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>]]</span><br></pre></td></tr></table></figure>]]></content>
+    <title>Python — Numpy max() maximum()</title>
+    <url>/2020/05/17/Python-Numpy_max_maximum/</url>
+    <content><![CDATA[<p>Max和Maximum的差別為:</p>
+<h3 id="np-max"><a href="#np-max" class="headerlink" title="np.max()"></a>np.max()</h3><p>最少接收一個參數，回傳所有內容的最大值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">value = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>]</span><br><span class="line">print(np.max(value))</span><br></pre></td></tr></table></figure>
+<p>結果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="np-maximum-A-B"><a href="#np-maximum-A-B" class="headerlink" title="np.maximum(A, B)"></a>np.maximum(A, B)</h3><p>最少接收兩個參數，回傳A與B逐個比較的最大值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">value = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="number">8</span>]</span><br><span class="line">print(np.maximum(value, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<p>結果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="number">4</span> <span class="number">4</span> <span class="number">4</span> <span class="number">4</span> <span class="number">5</span> <span class="number">4</span> <span class="number">9</span> <span class="number">4</span> <span class="number">8</span>]</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Python</category>
-        <category>Tensorflow</category>
+        <category>Numpy</category>
       </categories>
       <tags>
         <tag>Programming</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Pyqt5 All DropAction Image</title>
-    <url>/2020/05/18/Pyqt5-All_DropAction_Image/</url>
-    <content><![CDATA[<h1 id="Use-method"><a href="#Use-method" class="headerlink" title="Use method:"></a>Use method:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">event.setDropAction(QtCore.Qt.MoveAction)</span><br></pre></td></tr></table></figure>
-
-<h1 id="Image"><a href="#Image" class="headerlink" title="Image:"></a>Image:</h1><p><img src="/images/pyqt5/Action/ActionMask.png" alt="ActionMask"></p>
-<p><img src="/images/pyqt5/Action/CopyAction.png" alt="CopyAction"></p>
-<p><img src="/images/pyqt5/Action/IgnoreAction.png" alt="IgnoreAction"></p>
-<p><img src="/images/pyqt5/Action/LinkAction.png" alt="LinkAction"></p>
-<p><img src="/images/pyqt5/Action/MoveAction.png" alt="MoveAction"></p>
-<p><img src="/images/pyqt5/Action/TargetMoveAction.png" alt="TargetMoveAction"></p>
-]]></content>
-      <categories>
-        <category>Python</category>
-        <category>Pyqt5</category>
-      </categories>
-      <tags>
-        <tag>Programming</tag>
+        <tag>Compare</tag>
       </tags>
   </entry>
   <entry>
@@ -135,53 +90,48 @@
       </tags>
   </entry>
   <entry>
-    <title>Python — Numpy max() maximum()</title>
-    <url>/2020/05/17/Python-Numpy_max_maximum/</url>
-    <content><![CDATA[<p>Max和Maximum的差別為:</p>
-<h3 id="np-max"><a href="#np-max" class="headerlink" title="np.max()"></a>np.max()</h3><p>最少接收一個參數，回傳所有內容的最大值</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">value = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>]</span><br><span class="line">print(np.max(value))</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure>
-<h3 id="np-maximum-A-B"><a href="#np-maximum-A-B" class="headerlink" title="np.maximum(A, B)"></a>np.maximum(A, B)</h3><p>最少接收兩個參數，回傳A與B逐個比較的最大值</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">value = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="number">8</span>]</span><br><span class="line">print(np.maximum(value, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="number">4</span> <span class="number">4</span> <span class="number">4</span> <span class="number">4</span> <span class="number">5</span> <span class="number">4</span> <span class="number">9</span> <span class="number">4</span> <span class="number">8</span>]</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python</category>
-        <category>Numpy</category>
-      </categories>
-      <tags>
-        <tag>Programming</tag>
-        <tag>Compare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python — OpenCV基本用法</title>
-    <url>/2020/05/18/Python-OpenCV%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="載入模組"><a href="#載入模組" class="headerlink" title="載入模組:"></a>載入模組:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br></pre></td></tr></table></figure>
+    <title>Install Opencv issue</title>
+    <url>/2020/05/17/Install_Opencv_issue/</url>
+    <content><![CDATA[<p>安裝完opencv-contrib-python後 <code>import cv2</code> 時出現:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, </span><br><span class="line">line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt; File <span class="string">"/usr/local/lib/python3.7/</span></span><br><span class="line"><span class="string">site-packages/cv2/__init__.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> &lt;module&gt; </span><br><span class="line"><span class="keyword">from</span> .cv2 <span class="keyword">import</span> * ImportError: libhdf5_serial.so<span class="number">.103</span>: </span><br><span class="line">cannot open shared object file: No such file <span class="keyword">or</span> directory</span><br></pre></td></tr></table></figure>
+<p>— — — — — — 解決- — — — — — —</p>
+<h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h1><p>到 <code>cv2</code> 路徑下<br><code>cd /usr/local/lib/python3.7/site-packages/cv2</code><br>找到 <code>cv2.cpython-37m-arm-linux-gnueabihf.so</code></p>
+<h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h1><p>尋找未安裝的套件<br><code>&gt;&gt; ldd cv2.cpython-37m-arm-linux-gnueabihf.so | grep &quot;not found&quot;</code><br>Out::</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">libQtTest.so.4 =&gt; not found</span><br></pre></td></tr></table></figure>
 
-<h1 id="讀取圖片"><a href="#讀取圖片" class="headerlink" title="讀取圖片:"></a>讀取圖片:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">img = cv2.imread(<span class="string">'./Images/test.jpg'</span>)</span><br><span class="line"><span class="comment">#讀取為灰階圖片</span></span><br><span class="line">img = cv2.imread(<span class="string">'./Images/test.jpg'</span>, cv2.IMREAD_GRAYSCALE)</span><br></pre></td></tr></table></figure>
+<h1 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h1><p>安裝 <code>apt-file</code><br><code>&gt;&gt; sudo apt install apt-file</code></p>
+<h1 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h1><p>搜尋套件:<br><code>&gt;&gt; apt-file search libQtTest.so.4</code><br>Out::(冒號前面是套件名稱)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4</span><br><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4.8</span><br><span class="line">libqt4-test: /usr/lib/arm-linux-gnueabihf/libQtTest.so.4.8.7</span><br></pre></td></tr></table></figure>
 
-<h1 id="顯示圖片"><a href="#顯示圖片" class="headerlink" title="顯示圖片:"></a>顯示圖片:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cv2.imshow(<span class="string">'Image title'</span>, img) <span class="comment">#只要 Title 不一樣就會另開視窗</span></span><br><span class="line">cv2.waitKey(<span class="number">0</span>)           <span class="comment">#等待按下隨機按鍵才繼續執行，否則圖片會閃一下就消失</span></span><br><span class="line">cv2.destroyAllWindows()  <span class="comment">#關閉所有cv2視窗</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="圖片處理"><a href="#圖片處理" class="headerlink" title="圖片處理:"></a>圖片處理:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">img2 = img + <span class="number">100</span>          <span class="comment">#若直接ndarray相加，則數值可能會過大，而顏色錯誤</span></span><br><span class="line">img3 = cv2.add(img, <span class="number">100</span>)  <span class="comment">#使用cv2模組則不會出錯</span></span><br><span class="line">img4 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) <span class="comment">#轉為灰階圖片</span></span><br><span class="line">img5 = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  <span class="comment">#轉為 RGB 圖片</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="提取Pixel"><a href="#提取Pixel" class="headerlink" title="提取Pixel:"></a>提取Pixel:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#提取灰階圖座標點(100, 100)的 Pixel</span></span><br><span class="line"><span class="comment">#若圖片非灰階圖則產生Error</span></span><br><span class="line">x = img.item((<span class="number">100</span>, <span class="number">100</span>))</span><br><span class="line"><span class="comment">#提取彩色圖片座標點(100, 100)的第一通道(若此圖片為 BGR 則為提取B)</span></span><br><span class="line">x1 = img.item((<span class="number">100</span>, <span class="number">100</span>, <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
-
-<h1 id="設置Pixel"><a href="#設置Pixel" class="headerlink" title="設置Pixel:"></a>設置Pixel:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#設置灰階圖座標點(100, 100)的 Pixel 為200</span></span><br><span class="line"><span class="comment">#若圖片非灰階圖則產生Error</span></span><br><span class="line">img.itemset((<span class="number">100</span>, <span class="number">100</span>), <span class="number">200</span>)</span><br><span class="line"><span class="comment">#設置彩色圖片座標點(100, 100)的第一通道為200(若此圖片為 BGR 則為設置B)</span></span><br><span class="line">img.itemset((<span class="number">100</span>, <span class="number">100</span>, <span class="number">0</span>), <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
-<h1 id="提取BGR"><a href="#提取BGR" class="headerlink" title="提取BGR:"></a>提取BGR:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">b = img[:,:,<span class="number">0</span>]</span><br><span class="line">g = img[:,:,<span class="number">1</span>]</span><br><span class="line">r = img[:,:,<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
-
-<h1 id="Complement-正負片轉換，即黑白對調"><a href="#Complement-正負片轉換，即黑白對調" class="headerlink" title="Complement(正負片轉換，即黑白對調):"></a>Complement(正負片轉換，即黑白對調):</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cm = np.zeros(img.shape, np.uint8) + <span class="number">255</span>  <span class="comment">#產生和 img 同等大小的255陣列</span></span><br><span class="line">img6 = cv2.scaleAdd(img, <span class="number">-1</span>, cm)          <span class="comment">#圖片處理為:y = -1 * x + 255</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="計算-Pixel-在數值-0-255-個別的總數量"><a href="#計算-Pixel-在數值-0-255-個別的總數量" class="headerlink" title="計算 Pixel 在數值(0~255)個別的總數量:"></a>計算 Pixel 在數值(0~255)個別的總數量:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#可為多個影像</span></span><br><span class="line"><span class="comment">#       cv2.calcHist(影像, 通道, 遮罩, 區間數量, 數值範圍)</span></span><br><span class="line">pixel = cv2.calcHist([img], [<span class="number">0</span>], <span class="literal">None</span>, [<span class="number">256</span>], [<span class="number">0</span>, <span class="number">256</span>])</span><br></pre></td></tr></table></figure>
-
-<h1 id="畫圖表"><a href="#畫圖表" class="headerlink" title="畫圖表:"></a>畫圖表:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  <span class="comment">#載入模組</span></span><br><span class="line">plt.plot(pixel)                  <span class="comment">#畫圖</span></span><br><span class="line">plt.xlim([<span class="number">0</span>, <span class="number">256</span>])               <span class="comment">#設置X軸座標範圍</span></span><br><span class="line">plt.xlabel(<span class="string">'Pixel'</span>)              <span class="comment">#設置X軸文字</span></span><br><span class="line">plt.ylabel(<span class="string">'Count'</span>)              <span class="comment">#設置Y軸文字</span></span><br><span class="line">plt.show()                       <span class="comment">#顯示圖表</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="直方圖"><a href="#直方圖" class="headerlink" title="直方圖:"></a>直方圖:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  <span class="comment">#載入模組</span></span><br><span class="line">plt.bar([x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">256</span>)], [x[<span class="number">0</span>] <span class="keyword">for</span> x <span class="keyword">in</span> pixel]) <span class="comment">#畫直方圖</span></span><br><span class="line">plt.xlim([<span class="number">0</span>, <span class="number">256</span>])               <span class="comment">#設置X軸座標範圍</span></span><br><span class="line">plt.xlabel(<span class="string">'Pixel'</span>)              <span class="comment">#設置X軸文字</span></span><br><span class="line">plt.ylabel(<span class="string">'Count'</span>)              <span class="comment">#設置Y軸文字</span></span><br><span class="line">plt.show()                       <span class="comment">#顯示圖表</span></span><br></pre></td></tr></table></figure>]]></content>
+<h1 id="Step5"><a href="#Step5" class="headerlink" title="Step5:"></a>Step5:</h1><p>安裝缺少的套件:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt; sudo apt install libqt-4-test</span><br></pre></td></tr></table></figure>
+<p>直到所有套件都安裝即可<br>— — — — — — — — — — — — — — — — — — -</p>
+<h1 id="若出現"><a href="#若出現" class="headerlink" title="若出現:"></a>若出現:</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, line 1,</span><br><span class="line"> <span class="keyword">in</span> &lt;module&gt; ImportError: /usr/<span class="built_in">local</span>/lib/python3.7/site-packages/</span><br><span class="line"> cv2/cv2.cpython-37m-arm-linux-gnueabihf.so: undefined symbol: </span><br><span class="line"> __atomic_fetch_add_8</span><br></pre></td></tr></table></figure>
+<p>則可嘗試:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt; pip install opencv-python==3.4.6.27</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Python</category>
         <category>Opencv</category>
+      </categories>
+      <tags>
+        <tag>Install</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pyqt5 All DropAction Image</title>
+    <url>/2020/05/18/Pyqt5-All_DropAction_Image/</url>
+    <content><![CDATA[<h1 id="Use-method"><a href="#Use-method" class="headerlink" title="Use method:"></a>Use method:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">event.setDropAction(QtCore.Qt.MoveAction)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Image"><a href="#Image" class="headerlink" title="Image:"></a>Image:</h1><p><img src="/images/pyqt5/Action/ActionMask.png" alt="ActionMask"></p>
+<p><img src="/images/pyqt5/Action/CopyAction.png" alt="CopyAction"></p>
+<p><img src="/images/pyqt5/Action/IgnoreAction.png" alt="IgnoreAction"></p>
+<p><img src="/images/pyqt5/Action/LinkAction.png" alt="LinkAction"></p>
+<p><img src="/images/pyqt5/Action/MoveAction.png" alt="MoveAction"></p>
+<p><img src="/images/pyqt5/Action/TargetMoveAction.png" alt="TargetMoveAction"></p>
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Pyqt5</category>
       </categories>
       <tags>
         <tag>Programming</tag>
@@ -221,6 +171,21 @@
       </tags>
   </entry>
   <entry>
+    <title>Tf1 — Graph Memory leak</title>
+    <url>/2020/05/17/Python-Tf1_Graph_Memory_leak/</url>
+    <content><![CDATA[<p>當使用tf.Graph()想刪除特定節點卻只能畫新的圖<br>而使用到了 <code>del</code><br>Memory 依舊會緩慢上升直到 OOM</p>
+<h1 id="Ex"><a href="#Ex" class="headerlink" title="Ex:"></a>Ex:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line"> g = tf.Graph()</span><br><span class="line"> <span class="keyword">with</span> g.as_default():</span><br><span class="line">  v = tf.Variable(<span class="number">100</span>)</span><br><span class="line">  c = tf.Variable(<span class="number">200</span>)</span><br><span class="line"> <span class="keyword">del</span> g</span><br></pre></td></tr></table></figure>
+<h1 id="Sol"><a href="#Sol" class="headerlink" title="Sol:"></a>Sol:</h1><p>使用 <code>gc.collect()</code> 手動清理緩存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> gc</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line"> g = tf.Graph()</span><br><span class="line"> <span class="keyword">with</span> g.as_default():</span><br><span class="line">  v = tf.Variable(<span class="number">100</span>)</span><br><span class="line">  c = tf.Variable(<span class="number">200</span>)</span><br><span class="line"> <span class="keyword">del</span> g</span><br><span class="line"> gc.collect()</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Tensorflow</category>
+      </categories>
+      <tags>
+        <tag>Programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Pyqt5 基本視窗</title>
     <url>/2020/05/18/Python-Pyqt5_%E5%9F%BA%E6%9C%AC%E8%A6%96%E7%AA%97/</url>
     <content><![CDATA[<p>有三種常用的視窗 <code>QWidget</code> 、 <code>QMainWindow</code> 、 <code>QDialog</code><br><code>QWidget</code> 和 <code>QMainWindow</code> 基本上長的一樣，但 <code>QMainWindow</code> 可加入狀態<br>列、選單欄、標題欄是 <strong>GUI 的主視窗</strong><br><code>QWidget</code> 可為單一視窗也可嵌入到其他視窗內<br><code>QDialog</code> <strong>沒有</strong>選單欄、工具欄、狀態列，標題欄的<br><strong>最小化、最大化按鈕改為問號按鈕</strong></p>
@@ -233,6 +198,24 @@
       <categories>
         <category>Python</category>
         <category>Pyqt5</category>
+      </categories>
+      <tags>
+        <tag>Programming</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tf — Choice Top-k methods</title>
+    <url>/2020/05/17/Py-tf_topk/</url>
+    <content><![CDATA[<h1 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1:"></a>Method 1:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], [<span class="number">100</span>, <span class="number">99</span>, <span class="number">98</span>,</span><br><span class="line">                     <span class="number">97</span>, <span class="number">96</span>, <span class="number">95</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">92</span>, <span class="number">91</span>]])</span><br><span class="line">value, ids = tf.nn.top_k(data, <span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[[ <span class="number">10</span>   <span class="number">9</span>   <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span>   <span class="number">5</span>   <span class="number">4</span>   <span class="number">3</span>]</span><br><span class="line"> [<span class="number">100</span>  <span class="number">99</span>  <span class="number">98</span>  <span class="number">97</span>  <span class="number">96</span>  <span class="number">95</span>  <span class="number">94</span>  <span class="number">93</span>]]</span><br></pre></td></tr></table></figure>
+
+<h1 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2:"></a>Method 2:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], [<span class="number">100</span>, <span class="number">99</span>, <span class="number">98</span>, </span><br><span class="line">                    <span class="number">97</span>, <span class="number">96</span>, <span class="number">95</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">92</span>, <span class="number">91</span>]])</span><br><span class="line">sorted_data = tf.sort(data, direction=<span class="string">'DESCENDING'</span>)</span><br><span class="line">data_range = tf.range(<span class="number">0</span>, sorted_data.shape[<span class="number">1</span>], <span class="number">1</span>)</span><br><span class="line">data_range = tf.expand_dims(data_range, <span class="number">0</span>)</span><br><span class="line">data_range = tf.tile(data_range, [sorted_data.shape[<span class="number">0</span>], <span class="number">1</span>])</span><br><span class="line">out = tf.where(tf.less(data_range, <span class="number">6</span>), sorted_data, tf.zeros_like(sorted_data))</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[[ <span class="number">10</span>   <span class="number">9</span>   <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span>   <span class="number">5</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>]</span><br><span class="line"> [<span class="number">100</span>  <span class="number">99</span>  <span class="number">98</span>  <span class="number">97</span>  <span class="number">96</span>  <span class="number">95</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>]]</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Tensorflow</category>
       </categories>
       <tags>
         <tag>Programming</tag>
@@ -252,57 +235,43 @@
       </tags>
   </entry>
   <entry>
-    <title>Tf1 — Graph Memory leak</title>
-    <url>/2020/05/17/Python-Tf1_Graph_Memory_leak/</url>
-    <content><![CDATA[<p>當使用tf.Graph()想刪除特定節點卻只能畫新的圖<br>而使用到了 <code>del</code><br>Memory 依舊會緩慢上升直到 OOM</p>
-<h1 id="Ex"><a href="#Ex" class="headerlink" title="Ex:"></a>Ex:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line"> g = tf.Graph()</span><br><span class="line"> <span class="keyword">with</span> g.as_default():</span><br><span class="line">  v = tf.Variable(<span class="number">100</span>)</span><br><span class="line">  c = tf.Variable(<span class="number">200</span>)</span><br><span class="line"> <span class="keyword">del</span> g</span><br></pre></td></tr></table></figure>
-<h1 id="Sol"><a href="#Sol" class="headerlink" title="Sol:"></a>Sol:</h1><p>使用 <code>gc.collect()</code> 手動清理緩存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> gc</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line"> g = tf.Graph()</span><br><span class="line"> <span class="keyword">with</span> g.as_default():</span><br><span class="line">  v = tf.Variable(<span class="number">100</span>)</span><br><span class="line">  c = tf.Variable(<span class="number">200</span>)</span><br><span class="line"> <span class="keyword">del</span> g</span><br><span class="line"> gc.collect()</span><br></pre></td></tr></table></figure>]]></content>
+    <title>Python — OpenCV基本用法</title>
+    <url>/2020/05/18/Python-OpenCV%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="載入模組"><a href="#載入模組" class="headerlink" title="載入模組:"></a>載入模組:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br></pre></td></tr></table></figure>
+
+<h1 id="讀取圖片"><a href="#讀取圖片" class="headerlink" title="讀取圖片:"></a>讀取圖片:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">img = cv2.imread(<span class="string">'./Images/test.jpg'</span>)</span><br><span class="line"><span class="comment">#讀取為灰階圖片</span></span><br><span class="line">img = cv2.imread(<span class="string">'./Images/test.jpg'</span>, cv2.IMREAD_GRAYSCALE)</span><br></pre></td></tr></table></figure>
+
+<h1 id="顯示圖片"><a href="#顯示圖片" class="headerlink" title="顯示圖片:"></a>顯示圖片:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cv2.imshow(<span class="string">'Image title'</span>, img) <span class="comment">#只要 Title 不一樣就會另開視窗</span></span><br><span class="line">cv2.waitKey(<span class="number">0</span>)           <span class="comment">#等待按下隨機按鍵才繼續執行，否則圖片會閃一下就消失</span></span><br><span class="line">cv2.destroyAllWindows()  <span class="comment">#關閉所有cv2視窗</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="圖片處理"><a href="#圖片處理" class="headerlink" title="圖片處理:"></a>圖片處理:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">img2 = img + <span class="number">100</span>          <span class="comment">#若直接ndarray相加，則數值可能會過大，而顏色錯誤</span></span><br><span class="line">img3 = cv2.add(img, <span class="number">100</span>)  <span class="comment">#使用cv2模組則不會出錯</span></span><br><span class="line">img4 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) <span class="comment">#轉為灰階圖片</span></span><br><span class="line">img5 = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  <span class="comment">#轉為 RGB 圖片</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="提取Pixel"><a href="#提取Pixel" class="headerlink" title="提取Pixel:"></a>提取Pixel:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#提取灰階圖座標點(100, 100)的 Pixel</span></span><br><span class="line"><span class="comment">#若圖片非灰階圖則產生Error</span></span><br><span class="line">x = img.item((<span class="number">100</span>, <span class="number">100</span>))</span><br><span class="line"><span class="comment">#提取彩色圖片座標點(100, 100)的第一通道(若此圖片為 BGR 則為提取B)</span></span><br><span class="line">x1 = img.item((<span class="number">100</span>, <span class="number">100</span>, <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+<h1 id="設置Pixel"><a href="#設置Pixel" class="headerlink" title="設置Pixel:"></a>設置Pixel:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#設置灰階圖座標點(100, 100)的 Pixel 為200</span></span><br><span class="line"><span class="comment">#若圖片非灰階圖則產生Error</span></span><br><span class="line">img.itemset((<span class="number">100</span>, <span class="number">100</span>), <span class="number">200</span>)</span><br><span class="line"><span class="comment">#設置彩色圖片座標點(100, 100)的第一通道為200(若此圖片為 BGR 則為設置B)</span></span><br><span class="line">img.itemset((<span class="number">100</span>, <span class="number">100</span>, <span class="number">0</span>), <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="提取BGR"><a href="#提取BGR" class="headerlink" title="提取BGR:"></a>提取BGR:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">b = img[:,:,<span class="number">0</span>]</span><br><span class="line">g = img[:,:,<span class="number">1</span>]</span><br><span class="line">r = img[:,:,<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="Complement-正負片轉換，即黑白對調"><a href="#Complement-正負片轉換，即黑白對調" class="headerlink" title="Complement(正負片轉換，即黑白對調):"></a>Complement(正負片轉換，即黑白對調):</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cm = np.zeros(img.shape, np.uint8) + <span class="number">255</span>  <span class="comment">#產生和 img 同等大小的255陣列</span></span><br><span class="line">img6 = cv2.scaleAdd(img, <span class="number">-1</span>, cm)          <span class="comment">#圖片處理為:y = -1 * x + 255</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="計算-Pixel-在數值-0-255-個別的總數量"><a href="#計算-Pixel-在數值-0-255-個別的總數量" class="headerlink" title="計算 Pixel 在數值(0~255)個別的總數量:"></a>計算 Pixel 在數值(0~255)個別的總數量:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#可為多個影像</span></span><br><span class="line"><span class="comment">#       cv2.calcHist(影像, 通道, 遮罩, 區間數量, 數值範圍)</span></span><br><span class="line">pixel = cv2.calcHist([img], [<span class="number">0</span>], <span class="literal">None</span>, [<span class="number">256</span>], [<span class="number">0</span>, <span class="number">256</span>])</span><br></pre></td></tr></table></figure>
+
+<h1 id="畫圖表"><a href="#畫圖表" class="headerlink" title="畫圖表:"></a>畫圖表:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  <span class="comment">#載入模組</span></span><br><span class="line">plt.plot(pixel)                  <span class="comment">#畫圖</span></span><br><span class="line">plt.xlim([<span class="number">0</span>, <span class="number">256</span>])               <span class="comment">#設置X軸座標範圍</span></span><br><span class="line">plt.xlabel(<span class="string">'Pixel'</span>)              <span class="comment">#設置X軸文字</span></span><br><span class="line">plt.ylabel(<span class="string">'Count'</span>)              <span class="comment">#設置Y軸文字</span></span><br><span class="line">plt.show()                       <span class="comment">#顯示圖表</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="直方圖"><a href="#直方圖" class="headerlink" title="直方圖:"></a>直方圖:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  <span class="comment">#載入模組</span></span><br><span class="line">plt.bar([x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">256</span>)], [x[<span class="number">0</span>] <span class="keyword">for</span> x <span class="keyword">in</span> pixel]) <span class="comment">#畫直方圖</span></span><br><span class="line">plt.xlim([<span class="number">0</span>, <span class="number">256</span>])               <span class="comment">#設置X軸座標範圍</span></span><br><span class="line">plt.xlabel(<span class="string">'Pixel'</span>)              <span class="comment">#設置X軸文字</span></span><br><span class="line">plt.ylabel(<span class="string">'Count'</span>)              <span class="comment">#設置Y軸文字</span></span><br><span class="line">plt.show()                       <span class="comment">#顯示圖表</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Python</category>
-        <category>Tensorflow</category>
+        <category>Opencv</category>
       </categories>
       <tags>
         <tag>Programming</tag>
       </tags>
   </entry>
   <entry>
-    <title>Tf — scatter_nd, Numpy</title>
-    <url>/2020/05/17/Python-Tf_scatter_nd_Numpy/</url>
-    <content><![CDATA[<p>Tensorflow 中的 <code>tf.scatter_nd</code> 是一種更新張量的方法</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">indices = tf.constant([[<span class="number">3</span>], [<span class="number">1</span>], [<span class="number">5</span>], [<span class="number">7</span>]])</span><br><span class="line">updates = tf.constant([<span class="number">100</span>, <span class="number">300</span>, <span class="number">500</span>, <span class="number">700</span>])</span><br><span class="line">shape = tf.constant([<span class="number">10</span>])</span><br><span class="line">scatter = tf.scatter_nd(indices, updates, shape)</span><br></pre></td></tr></table></figure>
-<p>在 Numpy 中的方法為:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">ids = np.array([<span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">7</span>])</span><br><span class="line">update = np.array([<span class="number">100</span>, <span class="number">300</span>, <span class="number">500</span>, <span class="number">700</span>])</span><br><span class="line">data = np.zeros([<span class="number">10</span>])</span><br><span class="line">data[ids] = update</span><br></pre></td></tr></table></figure>
-<p>兩種方法結果都一樣，只是因 Tensorflow 不可直接透過索引值修改內容</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-        <category>Tensorflow</category>
-      </categories>
-      <tags>
-        <tag>Programming</tag>
-        <tag>Compare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python — *args 和 **kwargs</title>
-    <url>/2020/05/17/Python-args_kwargs/</url>
-    <content><![CDATA[<h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時 <code>*args</code> 和 <code>**kwargs</code> 就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(type(args))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在此函數中我們固定了前兩個的傳值數量，剩下傳入的值都會歸args所有<br>**注意args是tuple型態</p>
-<h3 id="kwargs-是屬於鍵值的參數就是字典-dict"><a href="#kwargs-是屬於鍵值的參數就是字典-dict" class="headerlink" title="**kwargs 是屬於鍵值的參數就是字典(dict)"></a><code>**kwargs</code> 是屬於鍵值的參數就是字典(dict)</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, **kwargs)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'kwargs'</span>, kwargs)</span><br><span class="line">  print(type(kwargs))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, z=<span class="number">9</span>, y=<span class="number">8</span>, x=<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">kwargs &#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">dict</span>'&gt;</span></span><br></pre></td></tr></table></figure>
-<p>所謂字典(dict)就是長這樣的, 前面是key值後面是value值，在此函數中我們固定了前兩個的傳值數量，剩下傳入的key=value值都會歸kwargs所有</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>**注意傳入時的key值不可和函數內固定的參數名稱重複<br>若在一個函數需要用到兩個可變參數時:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args, **kwargs)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(<span class="string">'kwargs'</span>, kwargs)</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>, z=<span class="number">9</span>, y=<span class="number">8</span>, x=<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>)</span><br><span class="line">kwargs &#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>要注意 <code>*args</code> 一定要在 `</strong>kwargs` 前面否則會出現錯誤!</p>
-]]></content>
+    <title>Python Opencv and Matplotlib different</title>
+    <url>/2020/05/17/Python-opencv_and_matplotlib_different/</url>
+    <content><![CDATA[<p>*Opencv is use BGR color<br>*Matplotlib is use RGB color<br>顯示圖片</p>
+<h3 id="Opencv"><a href="#Opencv" class="headerlink" title="Opencv"></a>Opencv</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">img = Image.open(<span class="string">'Image.jpg'</span>)</span><br><span class="line">img = np.array(img)</span><br><span class="line">cv2.imshow(<span class="string">'img'</span>, img)</span><br><span class="line">cv2.waitKey()</span><br></pre></td></tr></table></figure>
+<h3 id="Matplotlib"><a href="#Matplotlib" class="headerlink" title="Matplotlib"></a>Matplotlib</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">img = Image.open(<span class="string">'Image.jpg'</span>)</span><br><span class="line">img = np.array(img)</span><br><span class="line">plt.imshow(img)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Python</category>
       </categories>
@@ -362,27 +331,13 @@
       </tags>
   </entry>
   <entry>
-    <title>Python Opencv and Matplotlib different</title>
-    <url>/2020/05/17/Python-opencv_and_matplotlib_different/</url>
-    <content><![CDATA[<p>*Opencv is use BGR color<br>*Matplotlib is use RGB color<br>顯示圖片</p>
-<h3 id="Opencv"><a href="#Opencv" class="headerlink" title="Opencv"></a>Opencv</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">img = Image.open(<span class="string">'Image.jpg'</span>)</span><br><span class="line">img = np.array(img)</span><br><span class="line">cv2.imshow(<span class="string">'img'</span>, img)</span><br><span class="line">cv2.waitKey()</span><br></pre></td></tr></table></figure>
-<h3 id="Matplotlib"><a href="#Matplotlib" class="headerlink" title="Matplotlib"></a>Matplotlib</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">img = Image.open(<span class="string">'Image.jpg'</span>)</span><br><span class="line">img = np.array(img)</span><br><span class="line">plt.imshow(img)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>Programming</tag>
-        <tag>Compare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python — (tf/np).argmax()</title>
-    <url>/2020/05/17/Python-tf_np_argmax/</url>
-    <content><![CDATA[<p>Tensorflow 和 Numpy 中都有個 argmax()<br>兩種用法都一樣(差別在tensorflow 要用 <code>sess.run()</code> 啟動)下面只展示numpy<br>用法如下:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">arr = np.array([[<span class="number">1</span>, <span class="number">10</span>, <span class="number">3</span>], [<span class="number">6</span>, <span class="number">5</span>, <span class="number">11</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>], [<span class="number">12</span>, <span class="number">2</span>, <span class="number">4</span>]])</span><br><span class="line">print(<span class="string">'axis=0'</span>, np.argmax(arr, axis=<span class="number">0</span>))</span><br><span class="line">print(<span class="string">'axis=1'</span>, np.argmax(arr, axis=<span class="number">1</span>))</span><br><span class="line"><span class="comment"># arr[0] = [1, 10,  3]</span></span><br><span class="line"><span class="comment"># arr[1] = [6,  5, 11]</span></span><br><span class="line"><span class="comment"># arr[2] = [7,  8,  9]</span></span><br><span class="line"><span class="comment"># arr[3] = [12, 2,  4]</span></span><br></pre></td></tr></table></figure>
-<p>結果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">axis=<span class="number">0</span> [<span class="number">3</span> <span class="number">0</span> <span class="number">1</span>]</span><br><span class="line">axis=<span class="number">1</span> [<span class="number">1</span> <span class="number">2</span> <span class="number">2</span> <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-<p>*<em>當axis=0時，會比對在column中最大數字回傳它的索引值<br>*</em>當axis=1時，會比對在row中最大數字回傳它的索引值</p>
+    <title>Tf — scatter_nd, Numpy</title>
+    <url>/2020/05/17/Python-Tf_scatter_nd_Numpy/</url>
+    <content><![CDATA[<p>Tensorflow 中的 <code>tf.scatter_nd</code> 是一種更新張量的方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">indices = tf.constant([[<span class="number">3</span>], [<span class="number">1</span>], [<span class="number">5</span>], [<span class="number">7</span>]])</span><br><span class="line">updates = tf.constant([<span class="number">100</span>, <span class="number">300</span>, <span class="number">500</span>, <span class="number">700</span>])</span><br><span class="line">shape = tf.constant([<span class="number">10</span>])</span><br><span class="line">scatter = tf.scatter_nd(indices, updates, shape)</span><br></pre></td></tr></table></figure>
+<p>在 Numpy 中的方法為:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">ids = np.array([<span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">7</span>])</span><br><span class="line">update = np.array([<span class="number">100</span>, <span class="number">300</span>, <span class="number">500</span>, <span class="number">700</span>])</span><br><span class="line">data = np.zeros([<span class="number">10</span>])</span><br><span class="line">data[ids] = update</span><br></pre></td></tr></table></figure>
+<p>兩種方法結果都一樣，只是因 Tensorflow 不可直接透過索引值修改內容</p>
 ]]></content>
       <categories>
         <category>Python</category>
@@ -406,31 +361,6 @@
       <tags>
         <tag>Programming</tag>
         <tag>Compare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python virtualenv 虛擬環境安裝</title>
-    <url>/2020/05/18/Python-virtualenv_%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D/</url>
-    <content><![CDATA[<h1 id="安裝"><a href="#安裝" class="headerlink" title="安裝:"></a>安裝:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install virtualenv</span><br></pre></td></tr></table></figure>
-
-<h1 id="創建"><a href="#創建" class="headerlink" title="創建"></a>創建</h1><p>打開 cmd 到想創建虛擬環境的位置後輸入(name為自行取的虛擬環境名稱):</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">virtualenv name</span><br></pre></td></tr></table></figure>
-<p><img src="/images/Pyinstaller/step1.png" alt="虛擬環境創建成功"></p>
-<p>進入 <code>name/Scripts</code> 資料夾輸入 <code>activate</code> 或是 <code>activate.bat</code> 啟動虛擬環境<br>命令列名稱前多了 <code>(name)</code> 就表示進入成功<br><img src="/images/Pyinstaller/step2.png" alt="進入虛擬環境"></p>
-<p>這時就可以輸入 <code>pip freeze</code> 檢查現有的 package</p>
-<h1 id="便利"><a href="#便利" class="headerlink" title="便利"></a>便利</h1><p>若嫌每次開啟方式太複雜，可直接將 <code>name/Scripts</code> 路徑增加至環境變數:<br><img src="/images/Pyinstaller/step3.png" alt="進入進階系統設定"></p>
-<p><img src="/images/Pyinstaller/step4.png" alt="進入進階系統設定"></p>
-<p><img src="/images/Pyinstaller/step5.png" alt="進入進階系統設定"></p>
-<p>這樣便可直接使用 <code>activate</code> 或 <code>activate.bat</code> 進入虛擬環境，不必到 <code>name/Scripts</code> 裡面</p>
-<h1 id="離開虛擬環境"><a href="#離開虛擬環境" class="headerlink" title="離開虛擬環境:"></a>離開虛擬環境:</h1><p>輸入 <code>deactivate</code> 即可離開虛擬環境</p>
-<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>大部分是為了打包成EXE檔案時，避免其他不必要的package一起被打包</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-        <category>Virtualenv</category>
-      </categories>
-      <tags>
-        <tag>Install</tag>
       </tags>
   </entry>
   <entry>
@@ -509,6 +439,62 @@
       </tags>
   </entry>
   <entry>
+    <title>Python — (tf/np).argmax()</title>
+    <url>/2020/05/17/Python-tf_np_argmax/</url>
+    <content><![CDATA[<p>Tensorflow 和 Numpy 中都有個 argmax()<br>兩種用法都一樣(差別在tensorflow 要用 <code>sess.run()</code> 啟動)下面只展示numpy<br>用法如下:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">arr = np.array([[<span class="number">1</span>, <span class="number">10</span>, <span class="number">3</span>], [<span class="number">6</span>, <span class="number">5</span>, <span class="number">11</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>], [<span class="number">12</span>, <span class="number">2</span>, <span class="number">4</span>]])</span><br><span class="line">print(<span class="string">'axis=0'</span>, np.argmax(arr, axis=<span class="number">0</span>))</span><br><span class="line">print(<span class="string">'axis=1'</span>, np.argmax(arr, axis=<span class="number">1</span>))</span><br><span class="line"><span class="comment"># arr[0] = [1, 10,  3]</span></span><br><span class="line"><span class="comment"># arr[1] = [6,  5, 11]</span></span><br><span class="line"><span class="comment"># arr[2] = [7,  8,  9]</span></span><br><span class="line"><span class="comment"># arr[3] = [12, 2,  4]</span></span><br></pre></td></tr></table></figure>
+<p>結果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">axis=<span class="number">0</span> [<span class="number">3</span> <span class="number">0</span> <span class="number">1</span>]</span><br><span class="line">axis=<span class="number">1</span> [<span class="number">1</span> <span class="number">2</span> <span class="number">2</span> <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>*<em>當axis=0時，會比對在column中最大數字回傳它的索引值<br>*</em>當axis=1時，會比對在row中最大數字回傳它的索引值</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Tensorflow</category>
+      </categories>
+      <tags>
+        <tag>Programming</tag>
+        <tag>Compare</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python virtualenv 虛擬環境安裝</title>
+    <url>/2020/05/18/Python-virtualenv_%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D/</url>
+    <content><![CDATA[<h1 id="安裝"><a href="#安裝" class="headerlink" title="安裝:"></a>安裝:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install virtualenv</span><br></pre></td></tr></table></figure>
+
+<h1 id="創建"><a href="#創建" class="headerlink" title="創建"></a>創建</h1><p>打開 cmd 到想創建虛擬環境的位置後輸入(name為自行取的虛擬環境名稱):</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">virtualenv name</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Pyinstaller/step1.png" alt="虛擬環境創建成功"></p>
+<p>進入 <code>name/Scripts</code> 資料夾輸入 <code>activate</code> 或是 <code>activate.bat</code> 啟動虛擬環境<br>命令列名稱前多了 <code>(name)</code> 就表示進入成功<br><img src="/images/Pyinstaller/step2.png" alt="進入虛擬環境"></p>
+<p>這時就可以輸入 <code>pip freeze</code> 檢查現有的 package</p>
+<h1 id="便利"><a href="#便利" class="headerlink" title="便利"></a>便利</h1><p>若嫌每次開啟方式太複雜，可直接將 <code>name/Scripts</code> 路徑增加至環境變數:<br><img src="/images/Pyinstaller/step3.png" alt="進入進階系統設定"></p>
+<p><img src="/images/Pyinstaller/step4.png" alt="進入進階系統設定"></p>
+<p><img src="/images/Pyinstaller/step5.png" alt="進入進階系統設定"></p>
+<p>這樣便可直接使用 <code>activate</code> 或 <code>activate.bat</code> 進入虛擬環境，不必到 <code>name/Scripts</code> 裡面</p>
+<h1 id="離開虛擬環境"><a href="#離開虛擬環境" class="headerlink" title="離開虛擬環境:"></a>離開虛擬環境:</h1><p>輸入 <code>deactivate</code> 即可離開虛擬環境</p>
+<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>大部分是為了打包成EXE檔案時，避免其他不必要的package一起被打包</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Virtualenv</category>
+      </categories>
+      <tags>
+        <tag>Install</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tensorflow — .pb Save and Restore</title>
+    <url>/2020/05/17/Tensorflow-pb_Save_and_Restore/</url>
+    <content><![CDATA[<h1 id="Save"><a href="#Save" class="headerlink" title="Save:"></a>Save:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.framework <span class="keyword">import</span> graph_util</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=tf.Graph()) <span class="keyword">as</span> sess:</span><br><span class="line">  <span class="keyword">with</span> tf.variable_scope(<span class="string">'v1'</span>):</span><br><span class="line">   x = tf.placeholder(tf.int32, name=<span class="string">'x'</span>)</span><br><span class="line">   zz = tf.placeholder(tf.int32, name=<span class="string">'zz'</span>)</span><br><span class="line">   b = tf.Variable(<span class="number">2</span>, name=<span class="string">'b'</span>)</span><br><span class="line">   xb = tf.multiply(x, b)</span><br><span class="line">   result = tf.add(xb, zz, name=<span class="string">'add'</span>)</span><br><span class="line">   print(result.name)</span><br><span class="line">  sess.run(tf.global_variables_initializer())</span><br><span class="line">  constant_graph = graph_util.convert_variables_to_constants(</span><br><span class="line">                  sess, </span><br><span class="line">                  tf.get_default_graph().as_graph_def(), </span><br><span class="line">                  [<span class="string">'v1/zz'</span>, <span class="string">'v1/x'</span>, <span class="string">'v1/b'</span>, <span class="string">'v1/add'</span>])</span><br><span class="line">  <span class="keyword">with</span> tf.gfile.FastGFile(<span class="string">'./filename.pb'</span>, mode=<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(constant_graph.SerializeToString())</span><br></pre></td></tr></table></figure>
+<h1 id="Restore"><a href="#Restore" class="headerlink" title="Restore:"></a>Restore:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.framework <span class="keyword">import</span> graph_util</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=tf.Graph()) <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(tf.global_variables_initializer())</span><br><span class="line">  graph_def = tf.GraphDef()</span><br><span class="line">  <span class="keyword">with</span> open(<span class="string">'./filename.pb'</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    graph_def.ParseFromString(f.read())</span><br><span class="line">    tf.import_graph_def(graph_def, name=<span class="string">""</span>)</span><br><span class="line">  x = sess.graph.get_tensor_by_name(<span class="string">'v1/x:0'</span>)</span><br><span class="line">  zz = sess.graph.get_tensor_by_name(<span class="string">'v1/zz:0'</span>)</span><br><span class="line">  b = sess.graph.get_tensor_by_name(<span class="string">'v1/b:0'</span>)</span><br><span class="line">  add = sess.graph.get_tensor_by_name(<span class="string">'v1/add:0'</span>)</span><br><span class="line">  print(sess.run(add, feed_dict=&#123;x:<span class="number">2</span>, zz:<span class="number">5</span>, b:<span class="number">3</span>&#125;))</span><br><span class="line">  <span class="comment">#x * b + zz = 11</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Tensorflow</category>
+      </categories>
+      <tags>
+        <tag>Programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Raspberry Pi install</title>
     <url>/2020/05/17/Raspberry_Pi_install/</url>
     <content><![CDATA[<p><img src="images/Raspberry_install/title.png" alt="Raspberry title"></p>
@@ -529,16 +515,30 @@
       </tags>
   </entry>
   <entry>
-    <title>Tensorflow — .pb Save and Restore</title>
-    <url>/2020/05/17/Tensorflow-pb_Save_and_Restore/</url>
-    <content><![CDATA[<h1 id="Save"><a href="#Save" class="headerlink" title="Save:"></a>Save:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.framework <span class="keyword">import</span> graph_util</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=tf.Graph()) <span class="keyword">as</span> sess:</span><br><span class="line">  <span class="keyword">with</span> tf.variable_scope(<span class="string">'v1'</span>):</span><br><span class="line">   x = tf.placeholder(tf.int32, name=<span class="string">'x'</span>)</span><br><span class="line">   zz = tf.placeholder(tf.int32, name=<span class="string">'zz'</span>)</span><br><span class="line">   b = tf.Variable(<span class="number">2</span>, name=<span class="string">'b'</span>)</span><br><span class="line">   xb = tf.multiply(x, b)</span><br><span class="line">   result = tf.add(xb, zz, name=<span class="string">'add'</span>)</span><br><span class="line">   print(result.name)</span><br><span class="line">  sess.run(tf.global_variables_initializer())</span><br><span class="line">  constant_graph = graph_util.convert_variables_to_constants(</span><br><span class="line">                  sess, </span><br><span class="line">                  tf.get_default_graph().as_graph_def(), </span><br><span class="line">                  [<span class="string">'v1/zz'</span>, <span class="string">'v1/x'</span>, <span class="string">'v1/b'</span>, <span class="string">'v1/add'</span>])</span><br><span class="line">  <span class="keyword">with</span> tf.gfile.FastGFile(<span class="string">'./filename.pb'</span>, mode=<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(constant_graph.SerializeToString())</span><br></pre></td></tr></table></figure>
-<h1 id="Restore"><a href="#Restore" class="headerlink" title="Restore:"></a>Restore:</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.framework <span class="keyword">import</span> graph_util</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=tf.Graph()) <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(tf.global_variables_initializer())</span><br><span class="line">  graph_def = tf.GraphDef()</span><br><span class="line">  <span class="keyword">with</span> open(<span class="string">'./filename.pb'</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    graph_def.ParseFromString(f.read())</span><br><span class="line">    tf.import_graph_def(graph_def, name=<span class="string">""</span>)</span><br><span class="line">  x = sess.graph.get_tensor_by_name(<span class="string">'v1/x:0'</span>)</span><br><span class="line">  zz = sess.graph.get_tensor_by_name(<span class="string">'v1/zz:0'</span>)</span><br><span class="line">  b = sess.graph.get_tensor_by_name(<span class="string">'v1/b:0'</span>)</span><br><span class="line">  add = sess.graph.get_tensor_by_name(<span class="string">'v1/add:0'</span>)</span><br><span class="line">  print(sess.run(add, feed_dict=&#123;x:<span class="number">2</span>, zz:<span class="number">5</span>, b:<span class="number">3</span>&#125;))</span><br><span class="line">  <span class="comment">#x * b + zz = 11</span></span><br></pre></td></tr></table></figure>]]></content>
+    <title>Python — *args 和 **kwargs</title>
+    <url>/2020/05/17/Python-args_kwargs/</url>
+    <content><![CDATA[<h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時 <code>*args</code> 和 <code>**kwargs</code> 就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(type(args))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+<p>結果:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在此函數中我們固定了前兩個的傳值數量，剩下傳入的值都會歸args所有<br>**注意args是tuple型態</p>
+<h3 id="kwargs-是屬於鍵值的參數就是字典-dict"><a href="#kwargs-是屬於鍵值的參數就是字典-dict" class="headerlink" title="**kwargs 是屬於鍵值的參數就是字典(dict)"></a><code>**kwargs</code> 是屬於鍵值的參數就是字典(dict)</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, **kwargs)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'kwargs'</span>, kwargs)</span><br><span class="line">  print(type(kwargs))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, z=<span class="number">9</span>, y=<span class="number">8</span>, x=<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+<p>結果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">kwargs &#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">dict</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>所謂字典(dict)就是長這樣的, 前面是key值後面是value值，在此函數中我們固定了前兩個的傳值數量，剩下傳入的key=value值都會歸kwargs所有</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>**注意傳入時的key值不可和函數內固定的參數名稱重複<br>若在一個函數需要用到兩個可變參數時:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args, **kwargs)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(<span class="string">'kwargs'</span>, kwargs)</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>, z=<span class="number">9</span>, y=<span class="number">8</span>, x=<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+<p>結果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>)</span><br><span class="line">kwargs &#123;<span class="string">'z'</span>: <span class="number">9</span>, <span class="string">'y'</span>: <span class="number">8</span>, <span class="string">'x'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>要注意 <code>*args</code> 一定要在 `</strong>kwargs` 前面否則會出現錯誤!</p>
+]]></content>
       <categories>
         <category>Python</category>
-        <category>Tensorflow</category>
       </categories>
       <tags>
         <tag>Programming</tag>
+        <tag>Compare</tag>
       </tags>
   </entry>
   <entry>

@@ -21,18 +21,18 @@
     var CONFIG = {"hostname":"johnsonnnn.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="有三種常用的視窗 QWidget 、 QMainWindow 、 QDialogQWidget 和 QMainWindow 基本上長的一樣，但 QMainWindow 可加入狀態列、選單欄、標題欄是 GUI 的主視窗QWidget 可為單一視窗也可嵌入到其他視窗內QDialog 沒有選單欄、工具欄、狀態列，標題欄的最小化、最大化按鈕改為問號按鈕 QWidget:123456789101112fro">
+  <meta name="description" content="有三種常用的視窗 QWidget 、 QMainWindow 、 QDialogQWidget 和 QMainWindow 基本上長的一樣，但 QMainWindow 可加入狀態列、選單欄、標題欄是 GUI 的主視窗QWidget 可為單一視窗也可嵌入到其他視窗內QDialog 沒有選單欄、工具欄、狀態列，標題欄的最小化、最大化按鈕改為問號按鈕">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pyqt5 基本視窗">
 <meta property="og:url" content="https://johnsonnnn.github.io/2020/05/18/Python-Pyqt5_%E5%9F%BA%E6%9C%AC%E8%A6%96%E7%AA%97/index.html">
 <meta property="og:site_name" content="Johnsonnnn Blog">
-<meta property="og:description" content="有三種常用的視窗 QWidget 、 QMainWindow 、 QDialogQWidget 和 QMainWindow 基本上長的一樣，但 QMainWindow 可加入狀態列、選單欄、標題欄是 GUI 的主視窗QWidget 可為單一視窗也可嵌入到其他視窗內QDialog 沒有選單欄、工具欄、狀態列，標題欄的最小化、最大化按鈕改為問號按鈕 QWidget:123456789101112fro">
+<meta property="og:description" content="有三種常用的視窗 QWidget 、 QMainWindow 、 QDialogQWidget 和 QMainWindow 基本上長的一樣，但 QMainWindow 可加入狀態列、選單欄、標題欄是 GUI 的主視窗QWidget 可為單一視窗也可嵌入到其他視窗內QDialog 沒有選單欄、工具欄、狀態列，標題欄的最小化、最大化按鈕改為問號按鈕">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://johnsonnnn.github.io/images/Pyqt5_basewindow/step1.png">
 <meta property="og:image" content="https://johnsonnnn.github.io/images/Pyqt5_basewindow/step2.png">
 <meta property="og:image" content="https://johnsonnnn.github.io/images/Pyqt5_basewindow/step3.png">
 <meta property="article:published_time" content="2020-05-17T17:36:12.407Z">
-<meta property="article:modified_time" content="2020-05-18T05:43:04.114Z">
+<meta property="article:modified_time" content="2020-05-21T07:24:32.184Z">
 <meta property="article:author" content="John Sonnnn">
 <meta property="article:tag" content="Programming">
 <meta name="twitter:card" content="summary">
@@ -214,10 +214,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-18 01:36:12 / Modified: 13:43:04" itemprop="dateCreated datePublished" datetime="2020-05-18T01:36:12+08:00">2020-05-18</time>
+              <time title="Created: 2020-05-18 01:36:12" itemprop="dateCreated datePublished" datetime="2020-05-18T01:36:12+08:00">2020-05-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-21 15:24:32" itemprop="dateModified" datetime="2020-05-21T15:24:32+08:00">2020-05-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -265,6 +271,8 @@
 
       
         <p>有三種常用的視窗 <code>QWidget</code> 、 <code>QMainWindow</code> 、 <code>QDialog</code><br><code>QWidget</code> 和 <code>QMainWindow</code> 基本上長的一樣，但 <code>QMainWindow</code> 可加入狀態<br>列、選單欄、標題欄是 <strong>GUI 的主視窗</strong><br><code>QWidget</code> 可為單一視窗也可嵌入到其他視窗內<br><code>QDialog</code> <strong>沒有</strong>選單欄、工具欄、狀態列，標題欄的<br><strong>最小化、最大化按鈕改為問號按鈕</strong></p>
+<a id="more"></a>
+
 <h1 id="QWidget"><a href="#QWidget" class="headerlink" title="QWidget:"></a>QWidget:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets, QtCore, QtGui</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyWindow</span><span class="params">(QtWidgets.QWidget)</span>:</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">  super().__init__()</span><br><span class="line">  self.setupUi()</span><br><span class="line">  self.show()    <span class="comment">#有 show 才會顯示出視窗</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setupUi</span><span class="params">(self)</span>:</span></span><br><span class="line">  self.resize(<span class="number">200</span>, <span class="number">200</span>) <span class="comment">#設定大小</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">app = QtWidgets.QApplication(sys.argv)</span><br><span class="line">window = MyWindow() <span class="comment">#開始創建視窗</span></span><br><span class="line">sys.exit(app.exec_()) <span class="comment">#有這行才會保持開啟狀態，否則會閃一下就關閉</span></span><br></pre></td></tr></table></figure>
 <p><img src="/images/Pyqt5_basewindow/step1.png" alt="QWidget基本視窗"></p>
 <h1 id="QMainWindow"><a href="#QMainWindow" class="headerlink" title="QMainWindow:"></a>QMainWindow:</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets, QtCore, QtGui</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyWindow</span><span class="params">(QtWidgets.QMainWindow)</span>:</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">  super().__init__()</span><br><span class="line">  self.setupUi()</span><br><span class="line">  self.show()    <span class="comment">#有 show 才會顯示出視窗</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setupUi</span><span class="params">(self)</span>:</span></span><br><span class="line">  self.resize(<span class="number">200</span>, <span class="number">200</span>) <span class="comment">#設定大小</span></span><br><span class="line">  self.status=self.statusBar()</span><br><span class="line">  self.status.showMessage(<span class="string">"狀態列"</span>, <span class="number">3000</span>) <span class="comment">#在狀態列顯示文字"狀態列" 3秒</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">app = QtWidgets.QApplication(sys.argv)</span><br><span class="line">window = MyWindow() <span class="comment">#開始創建視窗</span></span><br><span class="line">sys.exit(app.exec_()) <span class="comment">#有這行才會保持開啟狀態，否則會閃一下就關閉</span></span><br></pre></td></tr></table></figure>

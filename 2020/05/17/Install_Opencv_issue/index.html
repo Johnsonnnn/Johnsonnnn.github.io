@@ -29,7 +29,7 @@
 <meta property="og:description" content="安裝完opencv-contrib-python後 import cv2 時出現: 12345Traceback (most recent call last): File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt; File &quot;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.7&#x2F;site-packages&#x2F;cv2&#x2F;__init__.py&quot;, line 3,">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-17T14:15:33.005Z">
-<meta property="article:modified_time" content="2020-05-17T14:51:25.839Z">
+<meta property="article:modified_time" content="2020-05-21T07:25:45.853Z">
 <meta property="article:author" content="John Sonnnn">
 <meta property="article:tag" content="Install">
 <meta name="twitter:card" content="summary">
@@ -210,10 +210,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-17 22:15:33 / Modified: 22:51:25" itemprop="dateCreated datePublished" datetime="2020-05-17T22:15:33+08:00">2020-05-17</time>
+              <time title="Created: 2020-05-17 22:15:33" itemprop="dateCreated datePublished" datetime="2020-05-17T22:15:33+08:00">2020-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-21 15:25:45" itemprop="dateModified" datetime="2020-05-21T15:25:45+08:00">2020-05-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -262,6 +268,8 @@
       
         <p>安裝完opencv-contrib-python後 <code>import cv2</code> 時出現:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last): File <span class="string">"&lt;stdin&gt;"</span>, </span><br><span class="line">line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt; File <span class="string">"/usr/local/lib/python3.7/</span></span><br><span class="line"><span class="string">site-packages/cv2/__init__.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> &lt;module&gt; </span><br><span class="line"><span class="keyword">from</span> .cv2 <span class="keyword">import</span> * ImportError: libhdf5_serial.so<span class="number">.103</span>: </span><br><span class="line">cannot open shared object file: No such file <span class="keyword">or</span> directory</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
 <p>— — — — — — 解決- — — — — — —</p>
 <h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h1><p>到 <code>cv2</code> 路徑下<br><code>cd /usr/local/lib/python3.7/site-packages/cv2</code><br>找到 <code>cv2.cpython-37m-arm-linux-gnueabihf.so</code></p>
 <h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h1><p>尋找未安裝的套件<br><code>&gt;&gt; ldd cv2.cpython-37m-arm-linux-gnueabihf.so | grep &quot;not found&quot;</code><br>Out::</p>

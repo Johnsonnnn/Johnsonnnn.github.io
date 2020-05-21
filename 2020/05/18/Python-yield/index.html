@@ -21,15 +21,15 @@
     var CONFIG = {"hostname":"johnsonnnn.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="定義一個函數，每次碰到 yield 時就會立即返回資料，可用 next() 呼叫下一筆資料或放入 for 循環裡 123456def getYield(data):  for i in data:    if i % 2 &#x3D;&#x3D; 1:      yield [1, 1, 1, 1]    else:      yield [2, 2, 2, 2]  Method 1:用 next() 呼叫下一筆資料">
+  <meta name="description" content="定義一個函數，每次碰到 yield 時就會立即返回資料，可用 next() 呼叫下一筆資料或放入 for 循環裡 123456def getYield(data):  for i in data:    if i % 2 &#x3D;&#x3D; 1:      yield [1, 1, 1, 1]    else:      yield [2, 2, 2, 2]">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python — yield">
 <meta property="og:url" content="https://johnsonnnn.github.io/2020/05/18/Python-yield/index.html">
 <meta property="og:site_name" content="Johnsonnnn Blog">
-<meta property="og:description" content="定義一個函數，每次碰到 yield 時就會立即返回資料，可用 next() 呼叫下一筆資料或放入 for 循環裡 123456def getYield(data):  for i in data:    if i % 2 &#x3D;&#x3D; 1:      yield [1, 1, 1, 1]    else:      yield [2, 2, 2, 2]  Method 1:用 next() 呼叫下一筆資料">
+<meta property="og:description" content="定義一個函數，每次碰到 yield 時就會立即返回資料，可用 next() 呼叫下一筆資料或放入 for 循環裡 123456def getYield(data):  for i in data:    if i % 2 &#x3D;&#x3D; 1:      yield [1, 1, 1, 1]    else:      yield [2, 2, 2, 2]">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-17T17:44:28.649Z">
-<meta property="article:modified_time" content="2020-05-17T17:47:49.643Z">
+<meta property="article:modified_time" content="2020-05-21T07:24:56.177Z">
 <meta property="article:author" content="John Sonnnn">
 <meta property="article:tag" content="Programming">
 <meta name="twitter:card" content="summary">
@@ -210,10 +210,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-18 01:44:28 / Modified: 01:47:49" itemprop="dateCreated datePublished" datetime="2020-05-18T01:44:28+08:00">2020-05-18</time>
+              <time title="Created: 2020-05-18 01:44:28" itemprop="dateCreated datePublished" datetime="2020-05-18T01:44:28+08:00">2020-05-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-21 15:24:56" itemprop="dateModified" datetime="2020-05-21T15:24:56+08:00">2020-05-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -258,6 +264,7 @@
       
         <p>定義一個函數，每次碰到 <code>yield</code> 時就會立即返回資料，可用 <code>next()</code> 呼叫<br>下一筆資料或放入 <code>for</code> 循環裡</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getYield</span><span class="params">(data)</span>:</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> data:</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">      <span class="keyword">yield</span> [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">yield</span> [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 
 <h1 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1:"></a>Method 1:</h1><p>用 <code>next()</code> 呼叫下一筆資料</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data = [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]</span><br><span class="line">s = getYield(data)</span><br><span class="line">print(next(s))</span><br><span class="line">print(next(s))</span><br><span class="line">print(next(s))</span><br><span class="line">print(next(s))</span><br></pre></td></tr></table></figure>

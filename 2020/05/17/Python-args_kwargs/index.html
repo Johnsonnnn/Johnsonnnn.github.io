@@ -21,15 +21,15 @@
     var CONFIG = {"hostname":"johnsonnnn.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。這兩個都是可變參數，不同的地方是:args是非鍵值的參數，也就是傳一般的值但是長度是可變的 123456def func(a, b, *args):  print(&#39;a&#39;, a)  print(&#39;b&#39;, b)  print(&#39;args&#39;, args)  print(type(args))f">
+  <meta name="description" content="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。這兩個都是可變參數，不同的地方是:args是非鍵值的參數，也就是傳一般的值但是長度是可變的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python — *args 和 **kwargs">
 <meta property="og:url" content="https://johnsonnnn.github.io/2020/05/17/Python-args_kwargs/index.html">
 <meta property="og:site_name" content="Johnsonnnn Blog">
-<meta property="og:description" content="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。這兩個都是可變參數，不同的地方是:args是非鍵值的參數，也就是傳一般的值但是長度是可變的 123456def func(a, b, *args):  print(&#39;a&#39;, a)  print(&#39;b&#39;, b)  print(&#39;args&#39;, args)  print(type(args))f">
+<meta property="og:description" content="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。這兩個都是可變參數，不同的地方是:args是非鍵值的參數，也就是傳一般的值但是長度是可變的">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-17T12:38:12.030Z">
-<meta property="article:modified_time" content="2020-05-17T14:24:39.411Z">
+<meta property="article:modified_time" content="2020-05-21T07:27:04.892Z">
 <meta property="article:author" content="John Sonnnn">
 <meta property="article:tag" content="Programming">
 <meta property="article:tag" content="Compare">
@@ -211,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-17 20:38:12 / Modified: 22:24:39" itemprop="dateCreated datePublished" datetime="2020-05-17T20:38:12+08:00">2020-05-17</time>
+              <time title="Created: 2020-05-17 20:38:12" itemprop="dateCreated datePublished" datetime="2020-05-17T20:38:12+08:00">2020-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-21 15:27:04" itemprop="dateModified" datetime="2020-05-21T15:27:04+08:00">2020-05-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -258,6 +264,8 @@
 
       
         <h3 id="在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。"><a href="#在寫Python時，常會遇到需要傳不固定的參數值，這時-args-和-kwargs-就發揮得很大的功效。" class="headerlink" title="在寫Python時，常會遇到需要傳不固定的參數值，這時 *args 和 **kwargs 就發揮得很大的功效。"></a>在寫Python時，常會遇到需要傳不固定的參數值，這時 <code>*args</code> 和 <code>**kwargs</code> 就發揮得很大的功效。</h3><p>這兩個都是可變參數，不同的地方是:<br>args是非鍵值的參數，也就是傳一般的值但是長度是可變的</p>
+<a id="more"></a>
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, *args)</span>:</span></span><br><span class="line">  print(<span class="string">'a'</span>, a)</span><br><span class="line">  print(<span class="string">'b'</span>, b)</span><br><span class="line">  print(<span class="string">'args'</span>, args)</span><br><span class="line">  print(type(args))</span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
 <p>結果:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">args (<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br></pre></td></tr></table></figure>

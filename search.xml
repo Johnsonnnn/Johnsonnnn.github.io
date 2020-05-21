@@ -13,27 +13,31 @@
 
 <h2 id="安裝-hexo"><a href="#安裝-hexo" class="headerlink" title="安裝 hexo"></a>安裝 hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
-<h3 id="下載完後創建資料夾"><a href="#下載完後創建資料夾" class="headerlink" title="下載完後創建資料夾"></a>下載完後創建資料夾</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo init &lt;DIRNAME&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="下載完後創建資料夾"><a href="#下載完後創建資料夾" class="headerlink" title="下載完後創建資料夾"></a>下載完後創建資料夾</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo init &lt;DIR_NAME&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="創建必要的檔案"><a href="#創建必要的檔案" class="headerlink" title="創建必要的檔案"></a>創建必要的檔案</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> &lt;DIRNAME&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<h3 id="創建必要的檔案"><a href="#創建必要的檔案" class="headerlink" title="創建必要的檔案"></a>創建必要的檔案</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> &lt;DIR_NAME&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
 
-<h2 id="修改-lt-DIRNAME-gt-config-yml-檔案"><a href="#修改-lt-DIRNAME-gt-config-yml-檔案" class="headerlink" title="修改 &lt;DIRNAME&gt;/_config.yml 檔案"></a>修改 <code>&lt;DIRNAME&gt;/_config.yml</code> 檔案</h2><p>為了可以連結到 Github 上所以要修改以下內容:<br>最下方有個</p>
+<h2 id="修改-lt-DIR-NAME-gt-config-yml-檔案"><a href="#修改-lt-DIR-NAME-gt-config-yml-檔案" class="headerlink" title="修改 &lt;DIR_NAME&gt;/_config.yml 檔案"></a>修改 <code>&lt;DIR_NAME&gt;/_config.yml</code> 檔案</h2><p>為了可以連結到 Github 上所以要修改以下內容:<br>最下方有個</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>:</span><br></pre></td></tr></table></figure>
 <p>修改為:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># &lt;USERNAME&gt; 為你的帳號名稱</span></span><br><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: <span class="string">'git'</span></span><br><span class="line">  repo: https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git</span><br></pre></td></tr></table></figure>
 
 <h2 id="檔案操作"><a href="#檔案操作" class="headerlink" title="檔案操作"></a>檔案操作</h2><p>接下來就可以寫幾個簡單的內容上傳了</p>
-<h3 id="文章位置"><a href="#文章位置" class="headerlink" title="文章位置"></a>文章位置</h3><p>主要的文章內容會放在 <code>&lt;DIRNAME&gt;/source/_posts</code> 裡面<br>附檔名都是 <code>.md</code></p>
-<h3 id="創建文章"><a href="#創建文章" class="headerlink" title="創建文章"></a>創建文章</h3><h4 id="Method1"><a href="#Method1" class="headerlink" title="Method1"></a>Method1</h4><p>文章可以自己創建 <code>.md</code> 檔案再增加內容<br>基本內容如下:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: <span class="built_in">test</span></span><br><span class="line">---</span><br><span class="line">這邊寫內容</span><br></pre></td></tr></table></figure>
+<h3 id="文章位置"><a href="#文章位置" class="headerlink" title="文章位置"></a>文章位置</h3><p>主要的文章內容會放在 <code>&lt;DIR_NAME&gt;/source/_posts</code> 裡面<br>附檔名都是 <code>.md</code></p>
+<h3 id="創建文章"><a href="#創建文章" class="headerlink" title="創建文章"></a>創建文章</h3><ul>
+<li>Method1<br>文章可以自己創建 <code>.md</code> 檔案再增加內容<br>基本內容如下:<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: <span class="built_in">test</span></span><br><span class="line">---</span><br><span class="line">這邊寫內容</span><br></pre></td></tr></table></figure></li>
+</ul>
 <p>—下方就是寫內容的區域</p>
-<h4 id="Method2"><a href="#Method2" class="headerlink" title="Method2"></a>Method2</h4><p>也可以透過 <code>hexo</code> 創建<br>*<em>記得要先進到 <DIRNAME> *</em></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># NEWPOSTNAME 就是要創建的檔案名稱</span></span><br><span class="line">hexo new &lt;NEWPOSTNAME&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Method2<br>也可以透過 <code>hexo</code> 創建</li>
+</ul>
+<p>*<em>記得要先進到 <DIR_NAME> *</em></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># NEW_POST_NAME 就是要創建的檔案名稱</span></span><br><span class="line">hexo new &lt;NEW_POST_NAME&gt;</span><br></pre></td></tr></table></figure>
 
 <p>它會自動幫你創建 date (這個不重要，因為佈署上去都會自動完成)</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: <span class="built_in">test</span></span><br><span class="line">date: 2020-05-21 17:54:35</span><br><span class="line">tags:</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 
-<h3 id="刪除文章"><a href="#刪除文章" class="headerlink" title="刪除文章"></a>刪除文章</h3><p>直接從 <code>&lt;DIRNAME&gt;/source/_posts</code> 裡面直接刪除<br>再重新佈署就可以</p>
+<h3 id="刪除文章"><a href="#刪除文章" class="headerlink" title="刪除文章"></a>刪除文章</h3><p>直接從 <code>&lt;DIR_NAME&gt;/source/_posts</code> 裡面直接刪除<br>再重新佈署就可以</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
 <h3 id="清除緩存"><a href="#清除緩存" class="headerlink" title="清除緩存"></a>清除緩存</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo clear</span><br><span class="line">or</span><br><span class="line">$ hexo cl</span><br></pre></td></tr></table></figure>
@@ -294,21 +298,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Pyqt5 視窗縮放和關閉事件</title>
-    <url>/2020/05/18/Python-Pyqt5_%E8%A6%96%E7%AA%97%E7%B8%AE%E6%94%BE%E5%92%8C%E9%97%9C%E9%96%89%E4%BA%8B%E4%BB%B6/</url>
-    <content><![CDATA[<p>視窗縮放時會觸發 <code>resizeEvent</code> ，而視窗關閉時會觸發 <code>closeEvent</code> 因此有物件要在視窗縮放或關閉時操作就寫入這些function裡</p>
-<a id="more"></a>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets, QtGui, QtCore</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyWindow</span><span class="params">(QtWidgets.QMainWindow)</span>:</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">  super().__init__()</span><br><span class="line">  self.setupUi()</span><br><span class="line">  self.show()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setupUi</span><span class="params">(self)</span>:</span></span><br><span class="line">  self.resize(<span class="number">400</span>, <span class="number">400</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resizeEvent</span><span class="params">(self, event)</span>:</span></span><br><span class="line">  print(<span class="string">'resize'</span>)</span><br><span class="line">  width, height = event.size().width(), event.size().height()</span><br><span class="line">  print(event.size())</span><br><span class="line">  print(width, height)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">closeEvent</span><span class="params">(self, event)</span>:</span></span><br><span class="line">  print(<span class="string">'window close'</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"> <span class="keyword">import</span> sys</span><br><span class="line"> app = QtWidgets.QApplication(sys.argv)</span><br><span class="line"> window = MyWindow()</span><br><span class="line"> sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python</category>
-        <category>Pyqt5</category>
-      </categories>
-      <tags>
-        <tag>Programming</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Tf1 — Graph Memory leak</title>
     <url>/2020/05/17/Python-Tf1_Graph_Memory_leak/</url>
     <content><![CDATA[<p>當使用tf.Graph()想刪除特定節點卻只能畫新的圖<br>而使用到了 <code>del</code><br>Memory 依舊會緩慢上升直到 OOM</p>
@@ -343,6 +332,21 @@
       <tags>
         <tag>Programming</tag>
         <tag>Compare</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pyqt5 視窗縮放和關閉事件</title>
+    <url>/2020/05/18/Python-Pyqt5_%E8%A6%96%E7%AA%97%E7%B8%AE%E6%94%BE%E5%92%8C%E9%97%9C%E9%96%89%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<p>視窗縮放時會觸發 <code>resizeEvent</code> ，而視窗關閉時會觸發 <code>closeEvent</code> 因此有物件要在視窗縮放或關閉時操作就寫入這些function裡</p>
+<a id="more"></a>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets, QtGui, QtCore</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyWindow</span><span class="params">(QtWidgets.QMainWindow)</span>:</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">  super().__init__()</span><br><span class="line">  self.setupUi()</span><br><span class="line">  self.show()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setupUi</span><span class="params">(self)</span>:</span></span><br><span class="line">  self.resize(<span class="number">400</span>, <span class="number">400</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resizeEvent</span><span class="params">(self, event)</span>:</span></span><br><span class="line">  print(<span class="string">'resize'</span>)</span><br><span class="line">  width, height = event.size().width(), event.size().height()</span><br><span class="line">  print(event.size())</span><br><span class="line">  print(width, height)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">closeEvent</span><span class="params">(self, event)</span>:</span></span><br><span class="line">  print(<span class="string">'window close'</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"> <span class="keyword">import</span> sys</span><br><span class="line"> app = QtWidgets.QApplication(sys.argv)</span><br><span class="line"> window = MyWindow()</span><br><span class="line"> sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Pyqt5</category>
+      </categories>
+      <tags>
+        <tag>Programming</tag>
       </tags>
   </entry>
   <entry>
@@ -457,23 +461,6 @@
       <categories>
         <category>Python</category>
         <category>Tensorflow</category>
-      </categories>
-      <tags>
-        <tag>Programming</tag>
-        <tag>Compare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python tkinter padx ipadx</title>
-    <url>/2020/05/18/Python-tkinter_padx_ipadx/</url>
-    <content><![CDATA[<h1 id="Button-attribute"><a href="#Button-attribute" class="headerlink" title="Button attribute"></a>Button attribute</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">button = tk.Button(root, text=<span class="string">'text'</span>)</span><br><span class="line">button.grid(row=<span class="number">0</span>, column=<span class="number">0</span>, padx=<span class="number">5</span>, ipadx=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p><code>ipadx</code> 為 Button 框內的距離<br><code>padx</code> 為 Button 框外距離</p>
-<h1 id="Window-attribute"><a href="#Window-attribute" class="headerlink" title="Window attribute"></a>Window attribute</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">root.overredirect(<span class="literal">True</span>)<span class="comment">#隱藏放大縮小按鍵</span></span><br><span class="line">root.attributes(<span class="string">'-topmost'</span>, <span class="literal">True</span>)<span class="comment">#顯示最上層</span></span><br><span class="line">app.attributes(<span class="string">'-alpha'</span>, <span class="number">0.5</span>)<span class="comment">#透明度，1為不透明</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python</category>
-        <category>Tkinter</category>
       </categories>
       <tags>
         <tag>Programming</tag>
@@ -624,6 +611,23 @@
       </categories>
       <tags>
         <tag>Programming</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python tkinter padx ipadx</title>
+    <url>/2020/05/18/Python-tkinter_padx_ipadx/</url>
+    <content><![CDATA[<h1 id="Button-attribute"><a href="#Button-attribute" class="headerlink" title="Button attribute"></a>Button attribute</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">button = tk.Button(root, text=<span class="string">'text'</span>)</span><br><span class="line">button.grid(row=<span class="number">0</span>, column=<span class="number">0</span>, padx=<span class="number">5</span>, ipadx=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p><code>ipadx</code> 為 Button 框內的距離<br><code>padx</code> 為 Button 框外距離</p>
+<h1 id="Window-attribute"><a href="#Window-attribute" class="headerlink" title="Window attribute"></a>Window attribute</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">root.overredirect(<span class="literal">True</span>)<span class="comment">#隱藏放大縮小按鍵</span></span><br><span class="line">root.attributes(<span class="string">'-topmost'</span>, <span class="literal">True</span>)<span class="comment">#顯示最上層</span></span><br><span class="line">app.attributes(<span class="string">'-alpha'</span>, <span class="number">0.5</span>)<span class="comment">#透明度，1為不透明</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python</category>
+        <category>Tkinter</category>
+      </categories>
+      <tags>
+        <tag>Programming</tag>
+        <tag>Compare</tag>
       </tags>
   </entry>
   <entry>

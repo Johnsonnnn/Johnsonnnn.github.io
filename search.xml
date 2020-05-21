@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>JavaScript — var let</title>
-    <url>/2020/05/17/JavaScript-var_let/</url>
-    <content><![CDATA[<p>JavaScript 中有其中兩種宣告分別是 <code>var</code> 跟 <code>let</code></p>
-<h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><a id="more"></a>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//var 在 if 外印出時</span></span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">a = <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//let 在 if 外印出時</span></span><br></pre></td></tr></table></figure>
-<p>結果:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">a is not defined</span><br></pre></td></tr></table></figure>
-<p>** <code>let</code> 是一種區塊的變數宣告像是 <code>if else while for</code> 即跳出區塊時就無法取得資料</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>Programming</tag>
-        <tag>Compare</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Install Opencv issue</title>
     <url>/2020/05/17/Install_Opencv_issue/</url>
     <content><![CDATA[<p>安裝完opencv-contrib-python後 <code>import cv2</code> 時出現:</p>
@@ -50,6 +28,28 @@
       </categories>
       <tags>
         <tag>Install</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript — var let</title>
+    <url>/2020/05/17/JavaScript-var_let/</url>
+    <content><![CDATA[<p>JavaScript 中有其中兩種宣告分別是 <code>var</code> 跟 <code>let</code></p>
+<h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><a id="more"></a>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//var 在 if 外印出時</span></span><br></pre></td></tr></table></figure>
+<p>結果:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">a = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//let 在 if 外印出時</span></span><br></pre></td></tr></table></figure>
+<p>結果:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">a is not defined</span><br></pre></td></tr></table></figure>
+<p>** <code>let</code> 是一種區塊的變數宣告像是 <code>if else while for</code> 即跳出區塊時就無法取得資料</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>Programming</tag>
+        <tag>Compare</tag>
       </tags>
   </entry>
   <entry>
